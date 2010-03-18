@@ -1,0 +1,23 @@
+<h1>New template</h1>
+
+<%= error_messages_for :template %>
+
+<% form_for(:template, :url => templates_path) do |f| %>
+  <p>
+    <b>Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <b>Content</b><br />
+    <%= f.text_area :content %>
+  </p>
+
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>
+
+<div class="buttons">
+  <%= link_to 'Back', templates_path %>
+</div>

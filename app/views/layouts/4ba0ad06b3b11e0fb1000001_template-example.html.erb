@@ -1,0 +1,57 @@
+
+<% for embedded_application in @embedded_applications %>
+    <% content_for embedded_application.block.name.to_sym do %>
+         <%= render_cell(:menu, :main) %>
+    <% end %>
+<% end %>
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<head>
+<meta http-equiv="Content-Type"  content="application/xhtml+xml; charset=UTF-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<% #if logged_in? -%>
+  <meta http-equiv="Pragma" content="no-cache" />
+<% #end %>
+<title><%= session[:page_title] %></title>
+<%#= stylesheet_link_tag "base","public","datepicker", :cache => 'defaults', :media=>'screen, print' %>
+<%= stylesheet_link_tag "/site/stylesheets/public" %>
+<!--[if IE 6]>
+<%#= stylesheet_link_tag "ie.css" %>
+<![endif]-->
+<!--[if IE 7]>
+<%#= stylesheet_link_tag "ie7" %>
+<![endif]-->
+<!--[if IE 8]>
+<%#= stylesheet_link_tag "ie8" %>
+<![endif]-->
+<% #if logged_in? -%>
+  <%#= stylesheet_link_tag "private", "simpletree", "thickbox" %>
+<% #end -%>
+<%#= stylesheet_link_tag "gmaps.css" %>
+<%#= stylesheet_link_tag "print", :media => "print" %>
+  <%#= javascript_include_tag 'jquery','jquery-ui','jquery.simple.tree.js' %>
+  <%#= javascript_include_tag "lang/" + session[:lang] + ".js","/javascripts/locales/" + session[:lang] + ".js",:defaults, :cache => 'defaults' %>
+<% #if logged_in? -%>
+  <%#= javascript_include_tag "thickbox", "private" %>
+<% #end -%>
+
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta name="revisit-after" content="30 days" />
+<link rel="search" href="/opensearch.xml" type="application/opensearchdescription+xml" title="cms" />
+      </head>
+<body>
+<% #if logged_in?  and !embedded_action?-%>
+<%#= render :partial => 'comun/menu_admin' %>
+<div id="cms">
+<% #end -%>
+<div id="header"><%= yield :header %></div><div id="header"><%= yield %></div>
+<% #if logged_in?  and !embedded_action?-%>
+</div>
+<% #end -%>
+<% #if Cms.load_gmap %>
+  <%#= GMap.header(:hl => "es", :host => request.host) %>
+<% #end -%>
+</body>
+</html>

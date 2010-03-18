@@ -1,0 +1,11 @@
+<% for embedded_application in @embedded_applications %>
+    <% content_for embedded_application.block.name.to_sym do %>
+         <%= render_cell(:menu, :main) %>
+    <% end %>
+<% end %>
+
+<%# content_for :otp_content do %>
+    <div id="header"><%= yield :header %></div><div id="header"><%= yield %></div>
+<%# end %>
+
+<%#= render :file => 'layouts/application' %>

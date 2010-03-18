@@ -1,0 +1,24 @@
+<h1>Editing template</h1>
+
+<%= error_messages_for :template %>
+
+<% form_for(:template, :url => template_path(@template), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <b>Content</b><br />
+    <%= f.text_area :content %>
+  </p>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<div class="buttons">
+  <%= link_to 'Show', template_path(@template) %> |
+  <%= link_to 'Back', templates_path %>
+</div>
