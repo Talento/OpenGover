@@ -1,0 +1,7 @@
+
+        <% for embedded_application in @embedded_applications %>
+            <% content_for embedded_application.block.name.to_sym do %>
+                 <%= render_cell(embedded_application.cell_name.to_sym, embedded_application.cell_state.to_sym, embedded_application.cell_params) %>
+            <% end %>
+        <% end %>
+      

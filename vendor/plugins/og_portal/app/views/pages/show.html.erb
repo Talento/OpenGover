@@ -1,0 +1,11 @@
+<p>
+  <b>Name:</b>
+  <%= @page.name %>
+</p>
+
+
+
+<div class="buttons">
+    <%= link_to 'Edit', :controller => :pages, :action => :edit, :id => @page %> |
+    <%= link_to 'Back', :controller => :pages, :action => :index %>
+</div>

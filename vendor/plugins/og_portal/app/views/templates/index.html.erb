@@ -1,0 +1,25 @@
+<h1>Listing templates</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Edit</th>
+    <th>Destroy</th>
+    <th>Manage blocks</th>
+    <th>Set as main</th>
+  </tr>
+  
+<% for template in @templates %>
+  <tr>
+    <td><%= template.name %></td>
+    <td><%= link_to 'Edit', :controller => :templates, :action => :edit, :id => template %></td>
+    <td><%= link_to 'Destroy', {:controller => :templates, :action => :destroy, :id => template}, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Manage blocks', :controller => :templates, :action => :manage_blocks, :id => template %></td>
+    <td><%= link_to 'Set as main', :controller => :templates, :action => :set_as_main, :id => template %></td>
+  </tr>
+<% end %>
+</table>
+
+<div class="buttons">
+<%= link_to 'New template', :controller => :templates, :action => :new %>
+    </div>

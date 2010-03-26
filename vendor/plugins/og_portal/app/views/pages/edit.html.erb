@@ -1,0 +1,17 @@
+<h1>Editing page</h1>
+
+<%= error_messages_for :page %>
+
+<% form_for(:page, :url => { :controller => :pages, :action => :update, :id => @page}, :html => { :method => :put }) do |f| %>
+    
+  <%= render :partial => "form", :locals => {:f => f} %>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<div class="buttons">
+  <%= link_to 'Show', :controller => :pages, :action => :show, :id => @page %> |
+  <%= link_to 'Back', :controller => :pages, :action => :index %>
+</div>
