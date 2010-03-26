@@ -6,7 +6,7 @@ require "action_mailer/railtie"
 require "active_resource/railtie"
 require "rails/test_unit/railtie"
 
-#require "vendor/plugins/otp_portal/lib/otp_portal"
+#require "vendor/plugins/og_portal/lib/og_portal"
 
 # Auto-require default libraries and those for the current Rails environment.
 Bundler.require :default, Rails.env
@@ -45,7 +45,7 @@ module OpenTalentCms
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters << :password
 
-    #Esta l’nea sobra, pero la necesito para los tests porque no coge los initializers
+    #Esta lï¿½nea sobra, pero la necesito para los tests porque no coge los initializers
     if Rails.env=="test"
       config.action_controller.session = { :key => "_myapp_session", :secret => 'e3b17ed77a7765b7b05a0a2aa21a4054d2e36eeaea2cad0ed106ca446e46723b8fe3161837e408ee5e27d4cd827e0a75e69d43b877bacd1b80817cd50912e08e' }
     end
