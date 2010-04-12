@@ -38,6 +38,26 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing or commenting them out if you're using named routes and resources.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  
+  map.connect  ':og_locale/private/:user_login/site/:og_site_id/:controller/:action/:id', :og_locale => Regexp.new(I18n.available_locales.collect(&:to_s).join("|"))
+  map.connect  ':og_locale/private/:user_login/site/:og_site_id/:controller/:action/:id.:format', :og_locale => Regexp.new(I18n.available_locales.collect(&:to_s).join("|"))
+
+  map.connect  ':og_locale/private/:user_login/:controller/:action/:id', :og_locale => Regexp.new(I18n.available_locales.collect(&:to_s).join("|"))
+  map.connect  ':og_locale/private/:user_login/:controller/:action/:id.:format', :og_locale => Regexp.new(I18n.available_locales.collect(&:to_s).join("|"))
+
+  map.connect  ':og_locale/site/:og_site_id/:controller/:action/:id', :og_locale => Regexp.new(I18n.available_locales.collect(&:to_s).join("|"))
+  map.connect  ':og_locale/site/:og_site_id/:controller/:action/:id.:format', :og_locale => Regexp.new(I18n.available_locales.collect(&:to_s).join("|"))
+
+  map.connect  ':og_locale/:controller/:action/:id', :og_locale => Regexp.new(I18n.available_locales.collect(&:to_s).join("|"))
+  map.connect  ':og_locale/:controller/:action/:id.:format', :og_locale => Regexp.new(I18n.available_locales.collect(&:to_s).join("|"))
+
+  map.connect  'private/:user_login/:controller/:action/:id'
+  map.connect  'private/:user_login/:controller/:action/:id.:format'
+
+  map.connect  ':site/:og_site_id/:controller/:action/:id'
+  map.connect  ':site/:og_site_id/:controller/:action/:id.:format'
+
+  map.connect  ':controller/:action/:id'
+  map.connect  ':controller/:action/:id.:format'
+
 end

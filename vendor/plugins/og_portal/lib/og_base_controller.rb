@@ -55,8 +55,8 @@ end
 
     params[:og_site] = og_get_site
 
-    default_url_options[:og_site_id] = params[:og_site_id] unless params[:og_site_id].blank?
-    default_url_options[:og_locale] = params[:og_locale] unless params[:og_locale].blank?
+    #default_url_options[:og_site_id] = params[:og_site_id] unless params[:og_site_id].blank?
+    #default_url_options[:og_locale] = params[:og_locale] unless params[:og_locale].blank?
     
     if !params[:og_locale].blank?
       I18n.locale = params[:og_locale]
