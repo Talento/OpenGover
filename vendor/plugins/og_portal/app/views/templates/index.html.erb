@@ -11,7 +11,7 @@
   
 <% for og_template in @og_templates %>
   <tr>
-    <td><%= og_template.name %></td>
+    <td><%= og_template.name %><%= " (Main)" if og_template.main%></td>
     <td><%= link_to 'Edit', :controller => :templates, :action => :edit, :id => og_template %></td>
     <td><%= link_to 'Destroy', {:controller => :templates, :action => :destroy, :id => og_template}, :confirm => 'Are you sure?', :method => :delete %></td>
     <td><%= link_to 'Manage blocks', :controller => :templates, :action => :manage_blocks, :id => og_template %></td>

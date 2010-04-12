@@ -31,16 +31,16 @@ end
             texto_block = ""
                  for embedded_application in block.embedded_applications
                    texto_block += render_cell(embedded_application.cell_name.to_sym, embedded_application.cell_state.to_sym, embedded_application.cell_params)
-
                  end
             template_content = template_content.gsub("@@#{block.name}@@", texto_block)
-
        end
 
-       action_response = response.body.gsub(/(.*?)<body(.*?)>(.*?)<\/body>(.*?)/im){$3}
+#       action_response = response.body.gsub(/(.*?)<body(.*?)>(.*?)<\/body>(.*?)/im){$3}
+#
+#       template_content.gsub!("@@main@@", action_response)
+#       response.body.gsub!(/(.*?)<body(.*?)>(.*?)<\/body>(.*?)/im){"#{$1}<body#{$2}>#{template_content}</body>#{$4}"}
 
-       template_content.gsub!("@@main@@", action_response)
-       response.body.gsub!(/(.*?)<body(.*?)>(.*?)<\/body>(.*?)/im){"#{$1}<body#{$2}>#{template_content}</body>#{$4}"}
+       response.body.gsub!(/(.*?)<body(.*?)>(.*?)<\/body>(.*?)/im){"#{$1}<body#{$2}>#{template_content.gsub("@@main@@", response.body.gsub(/(.*?)<body(.*?)>(.*?)<\/body>(.*?)/im){$3})}</body>#{$4}"}
 
 
        template_header = params[:og_template].header || ""

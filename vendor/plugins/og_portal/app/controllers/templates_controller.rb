@@ -15,21 +15,21 @@ class TemplatesController < ApplicationController
 
   # GET /templates/new
   def new
-    @og_template = Template.new
-    @og_template.site_id = params[:og_site].id
+    @edit_template = Template.new
+    @edit_template.site_id = params[:og_site].id
   end
 
   # GET /templates/1;edit
   def edit
-    @og_template = Template.find(params[:id])
+    @edit_template = Template.find(params[:id])
   end
 
   # POST /templates
   # POST /templates.xml
   def create
-    @og_template = Template.new(params[:template])
+    @edit_template = Template.new(params[:edit_template])
 
-      if @og_template.save
+      if @edit_template.save
         flash[:notice] = 'Template was successfully created.'
         redirect_to :controller => :templates, :action => :index
       else
@@ -40,9 +40,9 @@ class TemplatesController < ApplicationController
   # PUT /templates/1
   # PUT /templates/1.xml
   def update
-    @og_template = Template.find(params[:id])
+    @edit_template = Template.find(params[:id])
 
-      if @og_template.update_attributes(params[:template])
+      if @edit_template.update_attributes(params[:edit_template])
         flash[:notice] = 'Template was successfully updated.'
         redirect_to :controller => :templates, :action => :index
       else
@@ -94,6 +94,12 @@ class TemplatesController < ApplicationController
     @og_template.save
     end
       redirect_to :controller => :templates, :action => :manage_blocks, :id => @og_template
+  end
+
+  def set_as_main
+    @og_template = Template.find(params[:id])
+    @og_template.set_as_main
+      redirect_to :controller => :templates, :action => :index
   end
 
   private

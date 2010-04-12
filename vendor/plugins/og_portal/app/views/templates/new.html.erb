@@ -2,17 +2,9 @@
 
 <%= error_messages_for :og_template %>
 
-<% form_for(:og_template, :url => {:controller => :templates, :action => :create}) do |f| %>
-    <%= f.hidden_field :site_id %>
-  <p>
-    <b>Name</b><br />
-    <%= f.text_field :name %>
-  </p>
+<% form_tag({:controller => :templates, :action => :create}) do %>
 
-  <p>
-    <b>Content</b><br />
-    <%= f.text_area :content %>
-  </p>
+  <%= render :partial => "form" %>
 
   <p>
     <%= submit_tag "Create" %>
