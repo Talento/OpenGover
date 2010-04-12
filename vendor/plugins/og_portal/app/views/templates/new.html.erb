@@ -1,8 +1,9 @@
 <h1>New template</h1>
 
-<%= error_messages_for :template %>
+<%= error_messages_for :og_template %>
 
-<% form_for(:template, :url => {:controller => :templates, :action => :create}) do |f| %>
+<% form_for(:og_template, :url => {:controller => :templates, :action => :create}) do |f| %>
+    <%= f.hidden_field :site_id %>
   <p>
     <b>Name</b><br />
     <%= f.text_field :name %>

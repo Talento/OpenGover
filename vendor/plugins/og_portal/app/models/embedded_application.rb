@@ -1,13 +1,21 @@
 class EmbeddedApplication
 
-  include Mongoid::Document
-  field :name
-  field :cell_name
-  field :cell_state
-  field :cell_params, :type => Hash, :default => {}
+  include MongoMapper::EmbeddedDocument
+  key :name, String, :required => true
+  key :cell_name, String, :required => true
+  key :cell_state, String, :required => true
+  key :cell_params, Hash, :default => {}
+#  key :block_id, ObjectId
 
-  belongs_to :block, :inverse_of => :embedded_applications
+#  belongs_to :block, :inverse_of => :embedded_applications
 
-  validates_presence_of :name, :cell_name, :cell_state
+
+  @@available = []
+  
+    cattr_accessor :available
+
+  def block
+    self._parent_document
+  end
 
 end

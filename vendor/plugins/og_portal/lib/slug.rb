@@ -38,9 +38,9 @@ module Slug
       cattr_accessor :slug_field
       self.slug_field = field_for_slug
 
-      validates_presence_of field_for_slug
-      field :slug
-      key :slug
+#      validates_presence_of field_for_slug
+      key :slug, String, :index => true
+      key :_id, String
       before_create :create_slug
 
       send :include, InstanceMethods
@@ -49,20 +49,21 @@ module Slug
 
   module InstanceMethods
 
-    private
+#    private
     
     def create_slug
-      if self.valid?
+      if self.slug.blank?
         self.slug = self.send(slug_field).sluggerize
-        if self.class.criteria.where(:slug => self.slug).and(:id.ne => self.id).count > 0
+        if self.class.all(:slug => self.slug, :id.ne => self.id).count > 0
           n = 1
-          for t in self.class.criteria.where(:slug => "/" + self.slug + "-([0-9]*)/").and(:id.ne => self.id)
+          for t in self.class.all(:slug => "/" + self.slug + "-([0-9]*)/", :id.ne => self.id)
             template_number = t.slug.scan(Regexp.new(self.slug + "-([0-9]*)/")).flatten.first.to_i
             n = template_number if template_number > n
           end
           n+=1
           self.slug += "-#{n}"
         end
+        self._id = self.slug
       end
     end
 

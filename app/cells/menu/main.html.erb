@@ -1,2 +1,10 @@
-<h1>Menu#main</h1>
-<p>Find me in app/cells/menu/main.html.erb</p>
+	<% if @pages.size > 0 %>
+		<ul id="nav">
+          <% for page in @pages %>
+          <li>
+          <%= link_to page.name, :controller => :pages, :action => :show, :id => page %>
+            </li>
+          <% end %>
+			<%#= render :partial => 'page', :collection => @pages, :locals => {:children => false, :first => @pages.first, :last => @pages.last} %>
+		</ul>
+	<% end -%>

@@ -1,38 +1,31 @@
 class PagesController < ApplicationController
 
+  available_application("Page listing", {:controller => "pages", :action => "index"})
+
   # GET /pages
   # GET /pages.xml
   def index
-    @pages = Page.all
-                                    
-    respond_to do |format|
-      format.html # index.rhtml
-      #format.xml  { render :xml => @pages.to_xml }
-    end
+    @pages = Page.all(:order => "position")
   end
 
   # GET /pages/1
   # GET /pages/1.xml
   def show
-    @page = Page.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.rhtml
-      #format.xml  { render :xml => @page.to_xml }
-    end
+    @page = params[:id].blank? ? get_first_public_page : Page.find(params[:id])
   end
 
   # GET /pages/new
   def new
     @page = Page.new
-    @page.site_id = params[:site].id
-    @templates = params[:site].templates
+    @page.site_id = params[:og_site].id
+    @page.parent_id = params[:parent_id] unless params[:parent_id].blank?
+    @templates = params[:og_site].templates
   end
 
   # GET /pages/1;edit
   def edit
     @page = Page.find(params[:id])
-        @templates = params[:site].templates
+        @templates = params[:og_site].templates
   end
 
   # POST /pages
@@ -40,17 +33,13 @@ class PagesController < ApplicationController
   def create
     @page = Page.new(params[:page])
 
-    respond_to do |format|
       if @page.save
         flash[:notice] = 'Page was successfully created.'
-        format.html { redirect_to "pages#index" }
-        #format.xml  { head :created, :location => page_url(@page) }
+        redirect_to :controller => "pages", :action => "index"
       else
-        @templates = params[:site].templates
-        format.html { render :action => "new" }
-        #format.xml  { render :xml => @page.errors.to_xml }
+        @templates = params[:og_site].templates
+        render :action => "new"
       end
-    end
   end
 
   # PUT /pages/1
@@ -58,17 +47,13 @@ class PagesController < ApplicationController
   def update
     @page = Page.find(params[:id])
 
-    respond_to do |format|
       if @page.update_attributes(params[:page])
         flash[:notice] = 'Page was successfully updated.'
-        format.html { redirect_to "pages#index" }
-        #format.xml  { head :ok }
+        redirect_to :controller => "pages", :action => "index"
       else
-        @templates = params[:site].templates
-        format.html { render :action => "edit" }
-        #format.xml  { render :xml => @page.errors.to_xml }
+        @templates = params[:og_site].templates
+        render :action => "edit"
       end
-    end
   end
 
   # DELETE /pages/1
@@ -77,9 +62,47 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     @page.destroy
 
-    respond_to do |format|
-      format.html { redirect_to "pages#index" }
-      #format.xml  { head :ok }
-    end
+        redirect_to :controller => "pages", :action => "index"
   end
+
+
+    def page_up
+        page = Page.find(params[:id])
+        page.move_higher
+        redirect_to :controller => "pages", :action => "index"
+    end
+
+    def page_down
+        page = Page.find(params[:id])
+        page.move_lower
+        redirect_to :controller => "pages", :action => "index"
+    end
+
+    def show_in_menu
+        page = Page.find(params[:id])
+        page.in_menu = true
+        page.save
+        redirect_to :controller => "pages", :action => "index"
+    end
+
+    def hide_in_menu
+        page = Page.find(params[:id])
+        page.in_menu = false  
+        page.save
+        redirect_to :controller => "pages", :action => "index"
+    end
+
+    def publish
+        page = Page.find(params[:id])
+        page.published = true
+        page.save
+        redirect_to :controller => "pages", :action => "index"
+    end
+
+    def unpublish
+        page = Page.find(params[:id])
+        page.published = false
+        page.save
+        redirect_to :controller => "pages", :action => "index"
+    end
 end

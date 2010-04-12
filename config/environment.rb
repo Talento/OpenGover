@@ -1,26 +1,43 @@
-# Load the rails application
-require File.expand_path('../application', __FILE__)
+# Be sure to restart your server when you modify this file
 
-# Initialize the rails application
-OpenTalentCms::Application.initialize!
+# Specifies gem version of Rails to use when vendor/rails is not present
+RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 
-# Desde aqu� sobrar�a, pero en modo test no coge los initializers ??????
-#if Rails.env=="test"
-#  File.open(File.expand_path('../database.mongo.yml',__FILE__), 'r') do |f|
-#    @settings = YAML.load(f)[Rails.env]
-#  end
-#
-#  Mongoid.configure do |config|
-#    name = @settings["database"]
-#    host = @settings["host"]
-#    config.master = Mongo::Connection.new.db(name)
-#    #config.slaves = [
-#    #  Mongo::Connection.new(host, @settings["slave_one"]["port"], :slave_ok => true).db(name),
-#    #  Mongo::Connection.new(host, @settings["slave_two"]["port"], :slave_ok => true).db(name)
-#    #]
-#  end
-#end
-#ActionController::Base.session = {
-#  :key    => '_open_talent_cms_session',
-#  :secret => 'e3b17ed77a7765b7b05a0a2aa21a4054d2e36eeaea2cad0ed106ca446e46723b8fe3161837e408ee5e27d4cd827e0a75e69d43b877bacd1b80817cd50912e08e'
-#}
+# Bootstrap the Rails environment, frameworks, and default configuration
+require File.join(File.dirname(__FILE__), 'boot')
+
+Rails::Initializer.run do |config|
+  # Settings in config/environments/* take precedence over those specified here.
+  # Application configuration should go into files in config/initializers
+  # -- all .rb files in that directory are automatically loaded.
+
+  # Add additional load paths for your own custom dirs
+  # config.load_paths += %W( #{RAILS_ROOT}/extras )
+
+  # Specify gems that this application depends on and have them installed with rake gems:install
+  # config.gem "bj"
+  # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
+  # config.gem "sqlite3-ruby", :lib => "sqlite3"
+  # config.gem "aws-s3", :lib => "aws/s3"
+  config.gem "cells"
+  config.gem "mongo_mapper"
+
+  # Only load the plugins named here, in the order given (default is alphabetical).
+  # :all can be used as a placeholder for all plugins not explicitly named
+  # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
+
+  # Skip frameworks you're not going to use. To use Rails without a database,
+  # you must remove the Active Record framework.
+  config.frameworks -= [ :active_record ] #, :active_resource, :action_mailer ]
+
+  # Activate observers that should always be running
+  # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
+
+  # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
+  # Run "rake -D time" for a list of tasks for finding time zone names.
+  config.time_zone = 'UTC'
+
+  # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
+  # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
+  # config.i18n.default_locale = :de
+end

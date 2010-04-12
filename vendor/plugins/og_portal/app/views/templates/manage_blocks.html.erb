@@ -1,0 +1,32 @@
+<p>
+  <b>Name:</b>
+  <%= @og_template.name %>
+</p>
+
+<p>
+  <b>Blocks:</b>
+<ul>
+<% for block in @og_template.blocks %>
+     <li>
+       <%=block.name%>
+       <ul>
+       <% for embedded_app in block.embedded_applications %>
+           <li><%= embedded_app.name %> <%= link_to 'Destroy', {:controller => :templates, :action => :destroy_embedded_application, :id => @og_template, :block_id => block, :embedded_application_id => embedded_app}, :confirm => 'Are you sure?', :method => :delete %></li>
+       <% end %>
+         <li>
+
+    <% form_tag(:controller => :templates, :action => :add_embedded_application, :id => @og_template, :block_id => block) do %>
+<%= select_tag "embedded_application_id", "<option>Select...</option>" + @embedded_applications.collect {|ea| "<option value=\"#{ea[:name].sluggerize}\">#{ea[:name]}</option>"}.join%>
+    <%= submit_tag "Add" %>
+               <% end %>
+         </li>
+
+           </ul>
+     </li>
+  <% end %>
+    </ul>
+</p>
+
+<div class="buttons">
+    <%= link_to 'Back', :controller => :templates, :action => :index %>
+</div>

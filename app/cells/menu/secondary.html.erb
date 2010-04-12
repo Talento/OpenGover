@@ -1,0 +1,5 @@
+	<% if @pages.size > 0 -%>
+		<ul id="nav">
+			<%= render :partial => 'page', :collection => @pages, :locals => {:children => false, :first => @pages.first, :last => @pages.last} %>
+		</ul>
+	<% end -%> 

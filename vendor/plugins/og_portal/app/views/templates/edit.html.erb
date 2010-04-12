@@ -1,9 +1,10 @@
 <h1>Editing template</h1>
 
-<%= error_messages_for :template %>
+<%= error_messages_for :og_template %>
 
-<% form_for(:template, :url => {:controller => :templates, :action => :update,:id => @template}, :html => { :method => :put }) do |f| %>
-  <p>
+<% form_for(:og_template, :url => {:controller => :templates, :action => :update,:id => @og_template}, :html => { :method => :put }) do |f| %>
+    <%= f.hidden_field :site_id %>
+    <p>
     <b>Name</b><br />
     <%= f.text_field :name %>
   </p>
@@ -19,6 +20,6 @@
 <% end %>
 
 <div class="buttons">
-  <%= link_to 'Show', :controller => :templates, :action => :show, :id => @template %> |
+  <%= link_to 'Show', :controller => :templates, :action => :show, :id => @og_template %> |
   <%= link_to 'Back', :controller => :templates, :action => :index %>
 </div>

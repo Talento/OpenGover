@@ -9,13 +9,13 @@
     <th>Set as main</th>
   </tr>
   
-<% for template in @templates %>
+<% for og_template in @og_templates %>
   <tr>
-    <td><%= template.name %></td>
-    <td><%= link_to 'Edit', :controller => :templates, :action => :edit, :id => template %></td>
-    <td><%= link_to 'Destroy', {:controller => :templates, :action => :destroy, :id => template}, :confirm => 'Are you sure?', :method => :delete %></td>
-    <td><%= link_to 'Manage blocks', :controller => :templates, :action => :manage_blocks, :id => template %></td>
-    <td><%= link_to 'Set as main', :controller => :templates, :action => :set_as_main, :id => template %></td>
+    <td><%= og_template.name %></td>
+    <td><%= link_to 'Edit', :controller => :templates, :action => :edit, :id => og_template %></td>
+    <td><%= link_to 'Destroy', {:controller => :templates, :action => :destroy, :id => og_template}, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Manage blocks', :controller => :templates, :action => :manage_blocks, :id => og_template %></td>
+    <td><%= link_to 'Set as main', :controller => :templates, :action => :set_as_main, :id => og_template %></td>
   </tr>
 <% end %>
 </table>

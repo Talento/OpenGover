@@ -1,11 +1,14 @@
 class Block
 
-  include Mongoid::Document
-  field :name
+  include MongoMapper::EmbeddedDocument
 
-  belongs_to :template, :inverse_of => :blocks
-  has_many :embedded_applications
+  key :name, String, :required => true
+#  key :template_id, ObjectId
 
-  validates_presence_of :name
+#  belongs_to :template, :inverse_of => :blocks
+#  has_many :embedded_applications
+  
+  many :embedded_applications
+
 
 end

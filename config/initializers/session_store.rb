@@ -5,8 +5,8 @@
 # Make sure the secret is at least 30 characters and all random, 
 # no regular words or you'll be exposed to dictionary attacks.
 ActionController::Base.session = {
-  :key    => '_open_talent_cms_session',
-  :secret => 'e3b17ed77a7765b7b05a0a2aa21a4054d2e36eeaea2cad0ed106ca446e46723b8fe3161837e408ee5e27d4cd827e0a75e69d43b877bacd1b80817cd50912e08e'
+  :key         => '_opengover_session',
+  :secret      => '6f2b4ecb82c60870e39f5968468a4e9b17ed1ae28098be8ee88ee08dd3185d51fb27c7baadde71ee7140f57f6a8320b4cf24f9b59dea644bf49538ea46ae4982'
 }
 
 # Use the database for sessions instead of the cookie-based default,

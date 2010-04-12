@@ -1,20 +1,8 @@
+
 <h1>Listing pages</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Edit</th>
-    <th>Destroy</th>
-  </tr>
-  
-<% for page in @pages %>
-  <tr>
-    <td><%= link_to page.name, :controller => :pages, :action => :show, :id => page %></td>
-    <td><%= link_to 'Edit', :controller => :pages, :action => :edit, :id => page %></td>
-    <td><%= link_to 'Destroy', {:controller => :pages, :action => :destroy, :id => page}, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
+
+<%= render(:partial => "page" , :collection => @pages, :locals => { :first => @pages.first, :last => @pages.last}) %>
 
 <div class="buttons">
     <%= link_to 'New page', :controller => :pages, :action => :new %>

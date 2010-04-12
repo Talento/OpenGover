@@ -1,0 +1,33 @@
+        <%
+        klass = ""
+        if page == first
+            klass = "primero"
+        elsif page == last
+            klass = "ultimo"
+        end
+        class_li = "#{klass} "#{page_selected(@family_ids, @page_id, page.id)}"
+        -%>
+    <li <%= class_li.blank? ? "" : "class=\"#{class_li}\"" %>>
+        <%
+        klass = ""
+        if false && children && page.published_in_menu_children.size > 0
+          klass += " con-hijos"
+        end
+        -%>
+        <% unless klass.blank? -%>
+               <%#= link_to page.name, {:controller => :pages, :action => :show, :id => page}, {:class => klass} %>
+    <%= link_to_page page, :class => klass %>
+        <% else -%>
+               <%#= link_to page.name, {:controller => :pages, :action => :show, :id => page} %>
+          <%= link_to_page page %>
+        <% end -%>
+        <% if false && children && page.published_in_menu_children.size > 0 #&& page_selected?(@family_ids, @page_id, page.id) -%>
+            <ul>
+                <%= render :partial => 'page', :collection => page.published_in_menu_children,:locals => {:children => true, :first => page.published_in_menu_children.first, :last => page.published_in_menu_children.last } %>
+            </ul>
+        <% else -%>
+            <% if false && children && !page.application.blank? #&& page_selected?(@family_ids, @page_id, page.id) %>
+                <%#= embed_action :controller => "pages", :action => "print_submenu", :modulo_id => page.modulo_id %>
+            <% end %>
+        <% end -%>
+    </li>
