@@ -1,0 +1,445 @@
+
+/********************************************************************************************/ 
+/*								Barra de Administración 									*/
+/********************************************************************************************/
+
+* {
+	margin:0;
+	padding:0;
+	}
+* html {
+	overflow-y:hidden;
+}
+body{
+	width:100%;
+	height:100%;
+}
+* html body {
+  overflow:auto;
+}
+
+#menu_admin {
+	width: 100%;
+	min-width:830px;
+	height:34px;
+	z-index: 1000;
+	top:0;
+	left: 0;
+	margin: 0;
+	padding: 0 0 3px 0;
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,src='/images/og/backgrounds/menu_admin.png', sizingMethod=scale);
+	background:none;
+	color:#ffffff;
+	font-weight:bold;
+	position:absolute;
+	}	
+	html > body #menu_admin {
+		position:fixed;	
+		background:url('/images/og/backgrounds/menu_admin.png') bottom left repeat-x transparent;
+		overflow:auto;
+		}
+
+#cms{
+	margin-top:0;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	overflow: auto;
+	margin-bottom:0;
+	}
+	html>body #cms {
+		position:static;
+		top:auto;
+		left:auto;
+		width:auto;
+		height:auto;
+		overflow:visible;
+		margin-bottom:0;
+		margin-top:34px;
+		}
+#cms #all{
+	width:auto;
+	float:left;
+	padding-top:0px;
+	margin-top:34px;
+}
+	#cms > #all{
+		width:100%;
+		float:left;
+		padding-top:0;
+		margin-top:0;
+	}
+
+	#menu_admin img {
+		border: none;
+	    background-color: transparent;
+	}
+
+	#menu_admin A IMG{
+		cursor:pointer!important;
+		}
+#myNicPanel {
+    width: 583px;
+    float:right;
+    margin: 0 5px;
+	padding:0 0 2px 0;
+}
+.icono-guardar{
+	float:right;
+	padding-top:5px;
+	
+	}
+	.icono-guardar A IMG{
+		width:16px;
+		height:16px;
+		}
+#cms A SPAN{
+	cursor:pointer;
+}
+
+.save-icon{
+	float:right;
+	padding-top:5px;
+
+	}
+	.save-icon A IMG{
+		width:16px;
+		height:16px;
+		}
+
+#og_actions{
+    margin: 0px 5px 0px 20px;
+	padding:6px 0 1px 8px;
+	z-index: 20;
+	left: 0px;
+	float:left;
+	width:185px;
+	border-left:1px solid #e6e6e6;
+}
+	#og_action A IMG{
+		width:20px;
+		height:20px;
+		padding:0;
+		}
+
+.edicion_imagen {
+    position: relative;
+    float: left;
+}
+
+.editable,
+.texto_editable{
+    display: inline;
+}
+
+div.galeria_editing {
+    position: relative;
+}
+
+a.delete_galeria {
+    background: url(/images/administracion/icons/eliminar.gif) no-repeat top left;
+    position: absolute;
+    top: 10px;
+    left: 5px;
+    z-index: 10;
+    width: 16px;
+    height: 16px;
+}
+
+/**************************************************************************/
+/************************** POP-UP ****************************************/
+/**************************************************************************/
+div.popup  {
+    background-color:#FFFFEE;
+    border-color:#999999 #666666 #666666;
+    border-style:solid;
+    border-width:1px 2px 2px 1px;
+    color:black;
+    cursor:default;
+    display:block;
+    font-weight:normal;
+    line-height:1.3;
+    padding:8px 10px 8px 8px;
+    position:absolute;
+    white-space:normal;
+    width:300px;
+    z-index:100;
+}
+
+/**************************************************************************/
+/************************** ALERT *****************************************/
+/**************************************************************************/
+
+#popup_container {
+	font-family:Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	min-width: 400px; /* Dialog will be no smaller than this */
+	max-width: 500px; /* Dialog will wrap after this width */
+	background: #FFF;
+	border: solid 2px #000000;
+	color: #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+/*Comentario*/
+
+#popup_title {
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 1.75em;
+	color: #FFFFFF;
+	background: #be3208 url(images/title.gif) top repeat-x;
+	border: solid 1px #FFF;
+	border-bottom: 0;
+	cursor: default;
+	padding: 0em;
+	margin: 0em;
+	height:auto;
+	min-height:100%;
+	width:auto;
+}
+	#popup_container A.popup_close{
+		background:transparent url(/images/thickbox/TB_cerrar_roja.gif) no-repeat scroll left top;
+		float:right;
+		height:14px;
+		text-decoration:none;
+		width:14px;
+		position:absolute;
+		top:7px;
+		right:10px;
+		cursor:pointer;
+		}
+#popup_content {
+	background: 16px 16px no-repeat url(images/info.gif);
+	padding: 0;
+	margin: 1px;
+}
+
+#popup_content.alert {
+	background:#FED9CB;
+}
+	#popup_content .errorExplanation{
+		padding:15px;
+		margin:0;
+		background:none;
+	}
+
+#popup_content.confirm {
+	background-image: url(images/important.gif);
+	padding:0 15px;
+}
+#popup_content.confirm #popup_panel {
+	padding:0 0 15px;
+}
+#popup_content.prompt {
+	padding:15px;
+}
+#popup_content.prompt #popup_panel {
+	padding:0 0 15px;
+}
+#popup_content.prompt #popup_message P{
+	font-size:12px;
+	padding:1px 0 3px 0;
+	}
+	#popup_content.prompt #popup_message P{
+		font-size:12px;
+		padding:1px 0 3px 0;
+		margin:0;
+		line-height:normal;
+		font-weight:bold;
+		}
+	#popup_content.prompt #popup_message INPUT{
+		width:356px;
+		padding:0 5px;
+		font-size:12px;
+		font-family:Tahoma;
+		}
+	#popup_content.prompt #popup_panel INPUT#popup_ok,
+	#popup_content.confirm #popup_panel INPUT#popup_cancel{
+		background:url(/images/og/icons/popup_alert_aceptar.gif) no-repeat top left transparent;
+		margin:0;
+		padding:3px 5px 4px 19px;
+		line-height:16px;
+		text-align:center;
+		border:0;
+		font-family:Tahoma;
+		font-size:11px;
+		font-weight:bold;
+		cursor:pointer;
+		width:86px;
+		}
+	#popup_content.prompt #popup_panel INPUT#popup_cancel,
+	#popup_content.confirm #popup_panel INPUT#popup_cancel{
+		background:url(/images/og/icons/popup_alert_cancel.gif) no-repeat top left transparent;
+		margin:0;
+		padding:3px 5px 4px 19px;
+		line-height:16px;
+		text-align:center;
+		border:0;
+		font-family:Tahoma;
+		font-size:11px;
+		font-weight:bold;
+		cursor:pointer;
+		width:86px;
+		}
+#popup_message {
+	padding-left: 0;
+}
+	#popup_message H2 {
+		color:#AA1409;
+		font-size:13px;
+		font-weight:bold;
+		font-family:Tahoma;
+		letter-spacing:normal;
+	}
+
+	#popup_message .errorExplanation P{
+		font-size:12px;
+		padding:1px 0 3px 32px;
+	}
+		#popup_message .errorExplanation UL LI{
+			font-size:11px;
+		}
+	#popup_message .errorExplanation p {
+		background:url(/images/css/comunes/error-icono_popup.gif) no-repeat left center;
+		}
+#popup_panel {
+	text-align: right;
+	padding:0 15px 15px;
+	margin:0;
+}
+	#popup_panel INPUT{
+		background:url(/images/og/icons/popup_alert_aceptar.gif) no-repeat top left transparent;
+		margin:0;
+		padding:3px 5px 4px 19px;
+		line-height:16px;
+		text-align:center;
+		border:0;
+		font-family:Tahoma;
+		font-size:11px;
+		font-weight:bold;
+		cursor:pointer;
+		width:86px;
+	}
+
+#popup_prompt {
+	margin: .5em 0em;
+}
+/************************************************************************************/
+/*						Popup enlace interno										*/
+/************************************************************************************/
+#popup_container.popup_container_info{
+	
+	}
+	#popup_container.popup_container_info A.popup_close{
+		background:transparent url(/images/thickbox/TB_cerrar.gif) no-repeat scroll left top;
+		float:right;
+		height:14px;
+		text-decoration:none;
+		width:14px;
+		position:absolute;
+		top:7px;
+		right:10px;
+		cursor:pointer;
+		}
+	#popup_container.popup_container_info #popup_title{
+		background:#3CA3F9 url(/images/thickbox/TB_cabecera.gif) repeat-x scroll left top;
+		border-bottom:1px solid #046BCA;
+		text-align:left;
+		color:#FFFFFF;
+		border:0;
+		border-bottom:1px solid #046BCA;
+		padding:4px 0 3px 14px;
+		font-family:Tahoma;
+		font-size:12px;
+		letter-spacing:normal;
+		height:auto;
+		min-height:100%;
+		width:auto;
+	}
+#popup_container.popup_container_info #popup_content{
+	overflow-y:auto;
+	padding:6px;
+	width:400px;
+	height:300px;
+	}
+#popup_container.popup_container_info #popup_content.wait{
+	overflow-y:auto;
+	padding:6px;
+	width:400px;
+	height:auto;
+	text-align:center;
+	}
+	#popup_container.popup_container_info #popup_content.wait #popup_message{
+		text-align:left;
+	}
+	#popup_container.popup_container_info #popup_content.wait IMG{
+		margin-top:10px;
+	}
+/************************************************************************************/
+/*						Popup menssage										*/
+/************************************************************************************/
+#popup_container.popup_container_message{
+	width:418px;
+	}
+	#popup_container.popup_container_message A.popup_close{
+		background:transparent url(/images/thickbox/TB_cerrar.gif) no-repeat scroll left top;
+		float:right;
+		height:14px;
+		text-decoration:none;
+		width:14px;
+		position:absolute;
+		top:7px;
+		right:10px;
+		cursor:pointer;
+		}
+	#popup_container.popup_container_message #popup_title{
+		background:#3CA3F9 url(/images/thickbox/TB_cabecera.gif) repeat-x scroll left top;
+		border-bottom:1px solid #046BCA;
+		text-align:left;
+		color:#FFFFFF;
+		border:0;
+		border-bottom:1px solid #046BCA;
+		padding:4px 0 3px 14px;
+		font-family:Tahoma;
+		font-size:12px;
+		letter-spacing:normal;
+		height:auto;
+		min-height:100%;
+		width:auto;
+	}
+#popup_container.popup_container_message #popup_content{
+	overflow-y:auto;
+	padding:6px;
+	width:400px;
+	height:auto;
+	}
+#popup_container.popup_container_message #popup_content.wait{
+	overflow-y:auto;
+	padding:6px;
+	width:400px;
+	height:auto;
+	text-align:center;
+	}
+	#popup_container.popup_container_message #popup_content.wait #popup_message{
+		text-align:left;
+	}
+	#popup_container.popup_container_message #popup_content.wait IMG{
+		margin-top:10px;
+	}
+
+#iframe_gmaps {
+    width: 100%;
+    height:480px;
+	border:0;
+
+}
+.gmaps > #ifram_gmaps{
+	min-height: 480px;
+	height:auto;
+	}
+
