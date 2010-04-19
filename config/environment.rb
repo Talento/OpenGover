@@ -21,8 +21,12 @@ Rails::Initializer.run do |config|
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "cells"
   config.gem "mongo_mapper"
+  #config.gem "mime-types", :lib => "mime/types"
+  #config.gem 'grip'
   config.gem 'devise'
   config.gem "cancan"
+  config.gem 'will_paginate'
+  #config.gem "joint"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

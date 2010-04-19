@@ -33,9 +33,10 @@ ActionController::Routing::Routes.draw do |map|
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   map.root :controller => "pages", :pages => "show"
 
+  map.connect  'page/:id', :controller => "pages", :action => "show"
 
   # devise user definition
-  map.devise_for :users
+  map.devise_for :users, :as => 'signups'
   map.resource :user, :only => [:new, :create, :edit, :update]
 
   # See how all your routes lay out with "rake routes"
