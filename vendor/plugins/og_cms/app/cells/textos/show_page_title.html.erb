@@ -1,0 +1,13 @@
+	<%if logged_in? and Permission.for(Cms.user, "edit", "textos", "", @texto.id)%>
+    	<div id="show_contenido_<%=@texto.id%>" class="texto_editable">
+	<%end%>
+         <% if  logged_in? && admin? && Permission.for(Cms.user, "edit", "textos", "", @texto.id) && (@text.blank? || @text==t('pages.texto_base')) %>
+              <%= t('pages.texto_base') %>
+         <% else %>
+              <% if @text!=t('pages.texto_base') %>
+                  <%=  @text %>
+              <% end %>
+         <% end %>
+	<%if logged_in? and Permission.for(Cms.user, "edit", "textos", "", @texto.id)%>
+    	</div>  
+	<%end%>

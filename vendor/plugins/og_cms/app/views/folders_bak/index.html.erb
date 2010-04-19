@@ -1,0 +1,64 @@
+<% if @destino -%>
+  <input type="hidden" id="destino" value="<%= @destino %>"/>
+<% end -%>
+<div class="izquierda-imagen">
+	<div id="tree">
+		<ul class="simpleTree" id="simpleTree">
+		  <%= render :partial => 'tree' %>
+		</ul>
+	</div>
+    <div class="nueva_imagen editor_image TB_toggle_new">
+
+		<div class="formulario">
+      	<p id="TB_toggle_new"><%= image_tag 'thickbox/TB_subir_nueva_imagen.gif'%><%= t('image.send_new') %></p>
+			<%  form_for(:image, :url => { :action => 'create', :format => 'js'}, :html => { :multipart => true, :target => 'upload_frame'}) do |form| -%>
+              <%= hidden_field 'folder', 'id', :class => 'hidden_folder_id' %>
+
+              <%= render :partial => 'form' %>
+				<div class="content-botones">
+					<div class="botones guardar derecha">
+						<%= form.submit t('main.submit'), :class=>"boton", :value=> t('image.send'), :onclick => "jWait('#{t('main.wait_description')}','#{t('main.wait')}');" %>
+					</div>
+				</div>
+			    <%= render :partial => 'frame_upload' %>
+
+			<% end -%>
+		</div>
+	</div>
+
+</div>
+<div class="derecha_imagen">
+	<div id="preview">
+	
+	</div>
+
+
+</div>
+	<%= render :partial => "menu_folder" %>
+	<%= render :partial => "menu_image" %>
+	
+	
+	<%= javascript_include_tag "jquery.contextMenu" %>
+	<%= javascript_include_tag "jquery.imgareaselect.pack" %>
+	<%= stylesheet_link_tag "jquery.contextMenu" %>
+	<%= stylesheet_link_tag "imgareaselect-default" %>
+	<style>
+	<% if @type == 'gallery' -%>
+	  .editor_image {
+	    display: none;
+	  }
+	  .editor_gallery {
+	    display: inline;
+	  }
+	<% else %>
+	  .editor_gallery {
+	    display: none;
+	  }
+	  .editor_image {
+	    display: inline;
+	  }
+	<% end -%>
+	</style>
+	<script language="text/javascript">
+		load_simple_tree();
+	</script>

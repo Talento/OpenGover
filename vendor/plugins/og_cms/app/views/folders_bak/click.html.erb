@@ -1,0 +1,62 @@
+
+<h2><%= t('image.selected_item') %></h2>
+
+<div class="imagen">
+      <a href="#" class="rotate-left" onclick="rotate_image(-90); return false;"><img src="/images/base/rotate_left.png" alt="<%=t('image.turn_left') %>"/></a>
+      <a href="#" class="rotate-right" onclick="rotate_image(90); return false;"><img src="/images/base/rotate_right.png" alt="<%= t('image.turn_right') %>"/></a>
+      <%= image_tag uniq_url(@image.filename.url), :alt => @image.title, :id => 'preview_image', :x1sel => '0', :widthsel => '0', :x2sel => '0', :y2sel => '0', :oid => @image.id, :width => '200', :height => '137' %>
+</div>
+
+<div class="titulo editor_image">
+	  <label for="preview_image_title"><%= Image.human_attribute_name('title') %>:</label>
+      <%= text_field_tag :preview_image_title, @image.title, :size => 15 %>
+	  <label for="preview_image_name"><%= Image.human_attribute_name('description') %>:</label>
+      <%= text_area_tag :preview_image_name, @image.name, :rows => 2, :cols => 15 %>
+</div>
+<div class="herramientas editor_image">
+    <div class="botones guardar">
+	  <%= link_to_function t('main.save'), "save_image()", :class => "editor_image" %>
+  	</div>
+	<div class="botones borrar">
+      <%= link_to_remote t('main.delete'), :url => { :controller => 'folders', :action => 'delete_node', :id => @image.id, :type => 'Image' }, :confirm => t('main.confirm_delete') %>
+	</div>
+</div>
+
+<div class="propiedades-elemento editor_image">
+	<p class="accion-caja"><%= t('main.add_content') %></p>
+	<div class="dimensiones">
+		<label for="preview_image_width"><%= t('main.size') %>:</label>
+		<input id="preview_image_width" type="text" maxlength="4" size="5" name="image_width" value="<%= @image.width %>"/>
+		<%= hidden_field_tag "preview_image_original_width", @image.width %>
+		<label>x</label>
+		<input id="preview_image_height" type="text" maxlength="4" size="5" name="image_height" value="<%= @image.height %>"/>
+		<%= hidden_field_tag "preview_image_original_height", @image.height %>
+		<%= image_tag "thickbox/TB_select_proporcional.gif", :alt => t('main.proporcional'), :class => "select_proporcional sel" %>
+		
+		<%= hidden_field :select, :proporcional %>
+
+	</div>
+	<div class="align">
+		<p>
+                        <span class="derecha">
+                          <%= check_box :select, :displayable %> <%= label :select, :displayable, t('main.displayable') %>
+                        </span>
+			<%= t('main.align') %>:
+			<%= image_tag "thickbox/TB_select_align_izq.gif", :alt => t("main.align_left"), :oid => "imagen-izquierda", :class => "select_align" %>
+			<%= image_tag "thickbox/TB_select_align_der.gif", :alt => t("main.align_right"), :oid => "imagen-derecha", :class => "select_align" %>
+			<%= hidden_field :select, :align_id %>
+                        
+                  
+		</p>
+	</div>
+	<div class="content-botones">
+		<div class="botones guardar derecha">
+		  <%= link_to_function  t('main.add'), "insertar_imagen('#{@image.filename.url}',#{@image.id},'#{@image.name || @image.title}')", :class => "editor_image" %>
+		</div>
+	</div>
+</div>
+
+<script language="javascript">
+  set_imgarea();
+  activar_botones_preview_image();
+</script>

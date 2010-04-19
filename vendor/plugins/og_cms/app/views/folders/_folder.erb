@@ -1,0 +1,9 @@
+     <li id='Folder_<%= folder.id  %>' type="image"><span type="image" oid="<%= folder.id  %>" otype="folder"><%= folder.name_with_user %></span>
+       <ul class="ajax">
+         <% if folder.children_for_user(current_user) -%>
+            <li>{url:<%= @private_path %>/folders/index/<%= folder.id %>?&type=image}</li>
+         <% else -%>
+            <li class="line-last"></li>
+         <% end -%>
+      </ul>
+     </li>

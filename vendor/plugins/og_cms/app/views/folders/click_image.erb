@@ -1,0 +1,17 @@
+
+<h2><%= t('image.selected_item') %></h2>
+<div id="preview_folder" oid="<%= @folder.id %>"><%= t('galeria.elements_inside',:num => @folder.images.size) %></div>
+<%= render :partial => 'form', :locals => { :type => 'images'} %>
+
+
+<div class="propiedades-elemento">
+	<p class="accion-caja"><%= t('main.add_content') %></p>
+	<div class="opciones-carpeta">
+		<p><%= t('image.insert_gallery_message') %></p>
+        <div class="content-botones">
+            <div class="botones guardar derecha">
+                <%= link_to_function t('image.insert_gallery'), "insert_gallery(#{@folder.id},$(nicEditor_actual_selected.e).next('.galeria').attr('id'))" %>
+            </div>
+        </div>
+	</div>
+</div>

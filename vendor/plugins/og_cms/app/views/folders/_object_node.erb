@@ -1,0 +1,6 @@
+   <li id='<%= object_node.class.to_s + '_' + object_node.id.to_s %>' type='<%= object_node.class.to_s %>'>
+     <span type="<%= object_node.class.to_s %>" oid="<%= object_node.id %>" filename="<%= object_node.file.filename %>">
+     <img src="<%= object_node.file.tree.url + "?#{rand(1000000000)}" %>" alt="<%= object_node.title %>" oid="<%= object.id %>"/>
+      <span class="obj_title" oid="<%= object_node.id %>"><%=  object_node.title %></span> (<%= l(object_node.updated_at, :format => :short_tree) %>)
+     </span>
+   </li>

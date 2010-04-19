@@ -1,0 +1,13 @@
+<div>
+  <label for="image[title]"><%= "title" %></label>
+  <%= text_field('image', 'title', :size => 20) %>
+</div>
+<div>
+  <label for="image[name]"><%= "description" %></label>
+  <%= text_area('image', 'name', :rows => 3, :cols => 28) %>
+</div>
+<div>
+  <label for="image[file]"><%= "file" %> <%=t("main.required")%></label>
+  <%= file_field "image", "file", :size => 18, :class => 'trigger' %>
+  <p class="info-archivos-permitidos">(<%= t('image.upload_image_hint') %>)</p>
+</div>

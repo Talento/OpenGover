@@ -1,0 +1,23 @@
+<form id="form_tabla">
+	<div class="formulario">
+	  <div class="cabeceras">
+	    <%= check_box_tag('cabeceras_filas', 'headers', false) %>
+	    <label for="cabeceras_filas"><%= t('nicedit.headers_filas') %></label>
+	  </div>
+	  <div class="cabeceras">
+	    <%= check_box_tag('cabeceras_columnas', 'headers', false) %>
+	    <label for="cabeceras_columnas"><%= t('nicedit.headers_columnas') %></label>
+	  </div>
+	  <div class="num-filas-columnas">
+	    <label for="filas"><%= t('nicedit.rows') %></label>
+	    <%= text_field_tag('filas', '2',:size=>'1')%>
+	    <label for="columnas"><%= t('nicedit.cols') %></label>
+	    <%= text_field_tag('columnas', '2',:size=>'1') %>
+	  </div>
+	  <div class="content-botones">
+	    <div class="botones guardar derecha">
+			  <%= link_to_function  t('main.add'), "insert_table($(\"#form_tabla\"))" %>
+	    </div>
+	  </div>
+	</div>
+</form>

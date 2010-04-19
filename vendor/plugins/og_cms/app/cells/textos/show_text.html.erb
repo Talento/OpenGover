@@ -1,0 +1,35 @@
+	<%if user_signed_in? and can?(:edit, @texto)%>
+    	<div id="show_contenido_<%=@texto.id%>" class="texto_editable">
+	<%end%>
+         <% if user_signed_in? && can?(:edit, @texto) && (@text.blank? || @text==t('pages.texto_base')) %>
+              <%= t('pages.texto_base') %>
+         <% else %>
+              <% if @text!=t('pages.texto_base') %>
+                  <%=  @text %>
+              <% end %>
+         <% end %>
+
+
+
+         <%#= logged_in? && admin? && @text.blank? && @text!=t('pages.texto_base') ? t('pages.texto_base') : @text %>
+    <%if user_signed_in? and can?(:edit, @texto)%>
+		</div>  
+	<%end%>
+      <%if user_signed_in? and can?(:edit, @texto)%>
+            <div class="galeria galeria_editing" id="galeria_show_contenido_<%=@texto.id%>"><%= @texto_galeria %></div>
+      <% elsif !@texto_galeria.blank? %>
+            <div class="galeria" id="galeria_show_contenido_<%=@texto.id%>"><%= @texto_galeria %></div>
+      <% end %>
+
+      <%if user_signed_in? and can?(:edit, @texto)%>
+            <div class="gmap" id="gmap_show_contenido_<%=@texto.id%>"><%= @texto_gmap %></div>
+      <% elsif !@texto_gmap.blank? %>
+            <div class="gmap" id="gmap_show_contenido_<%=@texto.id%>"><%= @texto_gmap %></div>
+      <% end %>
+      <% if @mapa -%>
+        <script type="text/javascript">
+          window.onload = addCodeToFunction(window.onload,function() {
+            gmaps_load(<%=  @mapa.id %>,<%= @mapa.latitud %>,<%= @mapa.longitud %>,<%= @mapa.zoom %>, <%=  @mapa.get_array_of_points.to_json %>);
+          });
+        </script>
+      <% end -%>

@@ -1,0 +1,50 @@
+<div class="nueva_carpeta" id="carpeta">
+  <div class="formulario">
+    <% if @folder.id != 0 -%>
+      <div class="opciones-carpeta-permisos">
+        <div><%= text_field_tag('folder[new_name]', @folder.name, :size => 28) %></div>
+
+          <div class="permisos-carpeta">
+			<div>
+	          	<label for="folder_permissions"><strong><%= t('folder.permissions_for_folder') %></strong></label>
+	            <%= select :folder, :role, User::AVAILABLE_ROLES %>
+	        </div>
+			<div class="caja-permisos-checkbox">
+			    <label for="folder_recursive"><%= t('folder.recursive') %></label>
+				<%= check_box_tag :folder_recursive, '1', false, {:class=>"checkbox-permisos" }%>
+			</div>
+          </div>
+        <div class="content-botones">
+          <div class="botones guardar">
+            <a href="#" onclick="save_folder(); return false;" class="carpeta_seleccionada"><%= t('main.save') %></a>
+          </div>
+          <div class="botones borrar sin-clear derecha">
+            <a href="#" onclick="delete_selected_folder('<%= t('main.confirm_delete') %>'); return false;" class="carpeta_seleccionada"><%= t('main.delete') %></a>
+          </div>
+        </div>
+
+      </div>
+    <% end -%>
+	<div>
+    <%  form_remote_for(:folder, :url => { :controller => 'folders', :action => 'create', :type => @type}) do |form| -%>
+      	<%= hidden_field 'pfolder', 'id', :class => 'hidden_folder_id', :value => @folder.id %>
+		<div class="formulario">
+	      <p><strong><%= t('folder.new_subfolder') %></strong></p>
+	      <div class="opciones-carpeta">
+	        <div>
+	          <!--
+	                                    <label for="folder_name"><%= "name" %></label>
+	          -->
+	          <input type="text" size="28" name="folder[name]" id="folder_name"/>
+	        </div>
+	        <div class="content-botones">
+	          <div class="botones aniadir sin-clear derecha">
+	            <%= form.submit t('folder.new'), :class=>"boton" %>
+	          </div>
+	        </div>
+	      </div>
+		</div>
+    <% end -%>
+	</div>
+  </div>
+</div>

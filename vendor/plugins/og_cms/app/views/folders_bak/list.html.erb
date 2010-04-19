@@ -1,0 +1,24 @@
+
+<div id="gestion_imagenes">
+
+<h2><%= t('main.heading_new', :object => Image.human_name) %></h2>
+<%  form_for(:image, :url => { :action => 'upload', :format => 'js'}, :html => { :multipart => true, :target => 'upload_frame'}) do |form| %>	
+<div class="formulario">
+		<%= render :partial => 'form' %>
+                <%= hidden_field_tag "destino", "lista_imagenes_asignadas" %>
+		
+	</div>
+	<div class="botones">
+			<%= form.submit t('main.submit') %>
+        </div>
+        <%= render :partial => 'frame_upload' %>
+<% end %>
+
+
+<%=  render :partial => 'buscador' %>
+    <%#= render :partial => 'images_noticia' %>
+    
+<div id="editar_imagen">
+</div>
+
+</div>

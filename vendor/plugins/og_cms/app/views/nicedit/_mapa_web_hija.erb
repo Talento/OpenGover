@@ -1,0 +1,8 @@
+  <li id="item_<%= mapa_web_hija.id -%>" class="<%= cycle("even", "odd") -%>">
+      <span class="mapaweb_item" link="<%= mapa_web_hija.url_relativa %>"><%= mapa_web_hija.name -%></span>
+      <% if mapa_web_hija.children && mapa_web_hija.children.count>0  -%>
+        <ul>
+          <%= render(:partial => "mapa_web_hija" , :collection => mapa_web_hija.children) -%>
+        </ul>
+    <% end -%>
+  </li>

@@ -1,0 +1,4 @@
+
+<h2><%= t('flashobject.selected_item') %></h2>
+<div id="preview_folder" oid="<%= @folder.id %>"><%= t('galeria.elements_inside',:num => @folder.flashobjects.size) %></div>
+<%= render :partial => 'form', :locals => { :type => 'flashobjects'} %>

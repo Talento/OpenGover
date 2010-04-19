@@ -1,0 +1,30 @@
+<form id="form_link">
+  <p><strong><%= t('links.link_destination') %></strong></p>
+<div class="formulario">
+  <div class="link_type sel">
+    <label for="web"><%= t('links.web') %>:</label>
+    <%= text_field_tag('web', '', :size =>"30") %>
+  </div>
+  <div class="link_type">
+    <label for="mail"><%= t('links.mail') %>:</label>
+    <%= text_field_tag('mail', '', :size =>"30") %>
+  </div>
+  <div class="link_type">
+    <label for="local"><%= t('links.local') %>:</label><span id="local_page"></span>
+    <%= hidden_field_tag 'local', '', :class => "oculto" %>
+    <%= link_to_remote image_tag("og/icons/add_mini.png"), :url => { :action => "mapa_web" } %>
+  </div>
+  <div class="nueva-ventana">
+    <%= check_box_tag 'nueva_ventana' %>
+	<label for="nueva_ventana"><%= t('links.new_window') %></label>
+  </div>
+  <div class="content-botones">
+    <div class="botones guardar derecha">
+		  <%= link_to_function  t('main.add'), "insert_link($(\"#form_link\"))" %>
+    </div>
+  </div>
+</div>
+</form>
+<script type="text/javascript">
+  activar_botones_link_type();
+</script>

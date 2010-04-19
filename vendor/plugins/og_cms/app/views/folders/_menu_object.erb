@@ -1,0 +1,17 @@
+<ul id="<%=params[:type]%>_menu" class="contextMenu">
+    <li class="add editor_<%=params[:type]%>">
+        <a href="#add"><%= t('main.add') %></a>
+    </li>
+    <li class="copy editor_<%=params[:type]%> editor_gallery">
+        <a href="#copy"><%= t('main.copy') %></a>
+    </li>
+    <li class="paste editor_<%=params[:type]%> editor_gallery">
+        <a href="#paste"><%= t('main.paste') %></a>
+    </li>
+    <li class="clone editor_<%=params[:type]%> editor_gallery">
+        <a href="#clone"><%= t('main.clone') %></a>
+    </li>
+    <li class="delete editor_<%=params[:type]%> editor_gallery">
+        <a href="#delete"><%= t('main.delete') %></a>
+    </li>
+</ul>

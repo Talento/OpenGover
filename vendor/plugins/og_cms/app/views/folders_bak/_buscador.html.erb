@@ -1,0 +1,18 @@
+<div class="buscador-iframe">
+	<h3><%= t('search.heading') %></h3>
+	<%  form_tag({ :controller => 'images', :action => 'search', :format => 'js'}, :target => 'search_frame'  ) do |form| %>	
+		<div class="formulario">
+          <label for="image_description"><%= text_field 'image', 'description', :title => Image.human_attribute_name("description"), :size => 50 %></label>
+			
+			<div class="botones">
+			    <%= submit_tag t('search.submit'), :class => 'boton' %>
+			</div>
+		</div>
+		
+		<iframe id='search_frame' name="search_frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
+	<% end %>
+</div>
+
+<div id="div_resultados_busqueda">
+
+</div>

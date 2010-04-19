@@ -1,0 +1,12 @@
+
+        <% unless error_messages_for(:image).blank? %>
+            <div class="error-top-izq">
+                  <div class="error-top-der">
+                      <div class="error-bot-der">
+                          <div class="error-bot-izq">
+                              <%= error_messages_for :image %>
+                          </div>
+                      </div>
+                  </div>
+            </div>
+        <% end %>

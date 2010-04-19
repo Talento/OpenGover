@@ -1,0 +1,6 @@
+<% for folder in @folders do -%>
+  <%= render :partial => "folder", :locals => { :folder => folder } %>
+<% end -%>
+<%# for obj in @objects -%>
+  <%= render :partial =>'object_node', :collection => @objects %>
+<%# end -%>

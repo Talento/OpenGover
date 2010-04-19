@@ -1,0 +1,5 @@
+link = "<span id='#{@img.id}'>#{@img.filename.to_s}"
+link += link_to_remote t('main.delete'), :url => {:action => 'eliminar', :id => @img.id}
+link += '</span><br/>'
+#page[@destino].append(link)
+page.call("$(\"\##{@destino}\").append(\"#{link}\")")

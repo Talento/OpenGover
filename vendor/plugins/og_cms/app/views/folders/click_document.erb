@@ -1,0 +1,3 @@
+<h2><%= t('document.selected_item') %></h2>
+<div id="preview_folder" oid="<%= @folder.id %>"><%= t('galeria.elements_inside',:num => @folder.documents) %></div>
+<%= render :partial => 'form', :locals => { :type => 'documents'} %>
