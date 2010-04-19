@@ -13,7 +13,7 @@ class Page
   key :published, Boolean, :default => false
   key :public, Boolean, :default => true
   key :link, String, :default => ""
-  key :template_id, ObjectId, :required => true
+  key :template_id, String, :required => true
   key :site_id, ObjectId, :required => true
 
   slug :name

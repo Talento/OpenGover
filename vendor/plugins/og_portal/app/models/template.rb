@@ -64,7 +64,7 @@ class Template
 
   def get_blocks
 #    new_blocks = content.scan(/\<\%\=.*?yield(.*?)\%\>/).flatten.collect{|b| b.strip.gsub(":", "") unless b.blank?}.compact
-    new_blocks = content.scan(/@@(.*?)@@/).flatten.compact - ["main"]
+    new_blocks = content.scan(/@@(.*?)@@/).flatten.compact
     for block in self.blocks
       self.blocks.delete(block) unless new_blocks.include?(block.name)
     end

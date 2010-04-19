@@ -105,13 +105,11 @@ class TemplatesController < ApplicationController
   private
 
   def load_embedded_applications
-    if EmbeddedApplication.available.blank?
       Dir["#{Rails.root}/app/cells/*.rb"].each {|f|
         require f
       }
       Dir["#{Rails.root}/vendor/plugins/*/app/cells/*.rb"].each {|f|
         require f
-    }
-      end
+      }
   end
 end

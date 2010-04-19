@@ -23,7 +23,11 @@ module Sortable
   module InstanceMethods
 
   def move_higher
-    p = self.class.first(:position => self.position-1, :parent_id => self.parent_id)
+    if self.order_scope_field.blank?
+      p = self.class.first(:position => self.position-1, self.order_scope_field.to_sym => self.send(self.order_scope_field))
+    else
+      p = self.class.first(:position => self.position-1)
+    end
     p.position += 1
     p.save
 
@@ -32,7 +36,11 @@ module Sortable
   end
 
   def move_lower
-    p = self.class.first(:position => self.position+1, :parent_id => self.parent_id)
+    if self.order_scope_field.blank?
+      p = self.class.first(:position => self.position+1, self.order_scope_field.to_sym => self.send(self.order_scope_field))
+    else
+      p = self.class.first(:position => self.position+1)
+    end
     p.position -= 1
     p.save
 
@@ -43,7 +51,11 @@ module Sortable
     private
 
   def set_initial_position
-    self.position = self.class.count(:parent_id => self.parent_id) + 1
+    if self.order_scope_field.blank?
+    self.position = self.class.count(self.order_scope_field.to_sym => self.send(self.order_scope_field)) + 1
+    else
+      self.position = self.class.count() + 1
+      end
   end
 
     def reorder_positions
@@ -53,7 +65,11 @@ module Sortable
 #      end
 #      self.class.update(hash)
 
-      s = self.class.all(:select => "id", :position.gt => self.position, :parent_id => self.parent_id)
+    if self.order_scope_field.blank?
+      s = self.class.all(:select => "id", :position.gt => self.position, self.order_scope_field.to_sym => self.send(self.order_scope_field))
+    else
+      s = self.class.all(:select => "id", :position.gt => self.position)
+    end
       unless s.blank?
       # ids is array of item ids
 conditions = {:_id => {'$in' => s.collect(&:id)}}

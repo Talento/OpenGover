@@ -1,8 +1,6 @@
 
 module OgBaseHelper
     def link_to_page(page, options={})
-#logger.fatal("-------------------------------")
-#logger.fatal(page.name)
         pagina = page.name
         if page.link.blank?
             link_to(raw("<span>"+pagina+"</span>"), page.url, options)
@@ -14,6 +12,14 @@ module OgBaseHelper
             end
         end
     end
+
+	def uniq_url(url)
+         if url.include?("?")
+           url + rand(999999).to_s
+         else
+           url + "?" + rand(999999).to_s
+         end
+	end
 end
 
 ActionView::Base.send(:include, OgBaseHelper)

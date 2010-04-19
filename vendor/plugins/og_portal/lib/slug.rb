@@ -39,8 +39,8 @@ module Slug
       self.slug_field = field_for_slug
 
 #      validates_presence_of field_for_slug
-      key :slug, String, :index => true
-      key :_id, String
+      #key :slug, String
+      key :_id, String, :index => true
       before_create :create_slug
 
       send :include, InstanceMethods
@@ -52,19 +52,19 @@ module Slug
 #    private
     
     def create_slug
-      if self.slug.blank?
-        self.slug = self.send(slug_field).sluggerize
-        if self.class.all(:slug => self.slug, :id.ne => self.id).count > 0
+#      if self.id.blank?
+        self.id = self.send(slug_field).sluggerize
+        if self.class.all(:id => self.id).count > 0
           n = 1
-          for t in self.class.all(:slug => "/" + self.slug + "-([0-9]*)/", :id.ne => self.id)
-            template_number = t.slug.scan(Regexp.new(self.slug + "-([0-9]*)/")).flatten.first.to_i
+          for t in self.class.all(:id => "/" + self.id + "-([0-9]*)/")
+            template_number = t.slug.scan(Regexp.new(self.id + "-([0-9]*)/")).flatten.first.to_i
             n = template_number if template_number > n
           end
           n+=1
-          self.slug += "-#{n}"
+          self.id += "-#{n}"
         end
-        self._id = self.slug
-      end
+#        self._id = self.id
+#      end
     end
 
   end

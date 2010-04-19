@@ -1,7 +1,5 @@
 class PagesController < ApplicationController
 
-  available_application("Page listing", {:controller => "pages", :action => "index"})
-
   # GET /pages
   # GET /pages.xml
   def index
@@ -20,12 +18,14 @@ class PagesController < ApplicationController
     @page.site_id = params[:og_site].id
     @page.parent_id = params[:parent_id] unless params[:parent_id].blank?
     @templates = params[:og_site].templates
+    @available_applications = OPENGOVER_AVAILABLE_APPLICATIONS
   end
 
   # GET /pages/1;edit
   def edit
     @page = Page.find(params[:id])
         @templates = params[:og_site].templates
+    @available_applications = OPENGOVER_AVAILABLE_APPLICATIONS
   end
 
   # POST /pages
@@ -38,6 +38,7 @@ class PagesController < ApplicationController
         redirect_to :controller => "pages", :action => "index"
       else
         @templates = params[:og_site].templates
+    @available_applications = OPENGOVER_AVAILABLE_APPLICATIONS
         render :action => "new"
       end
   end
@@ -52,6 +53,7 @@ class PagesController < ApplicationController
         redirect_to :controller => "pages", :action => "index"
       else
         @templates = params[:og_site].templates
+    @available_applications = OPENGOVER_AVAILABLE_APPLICATIONS
         render :action => "edit"
       end
   end
@@ -105,4 +107,5 @@ class PagesController < ApplicationController
         page.save
         redirect_to :controller => "pages", :action => "index"
     end
+
 end

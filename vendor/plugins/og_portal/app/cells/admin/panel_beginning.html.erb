@@ -1,0 +1,44 @@
+<% if user_signed_in? -%>
+<div id="menu_admin">
+
+    <%
+       #if Permission.for(Cms.user, "edit", "textos", "", 0)
+    %>
+        <div id="myNicPanel"></div>
+    <%
+       #end
+    %>
+        <div class="save-icon">
+        	<a onclick="return save_action();"><%=image_tag("og/icons/save.png", :alt => t('menu_admin.save'), :title => t('menu_admin.save'))%></a>
+		</div>
+
+        <div id="og_actions">
+              <%= link_to image_tag("og/icons/menu.png", :alt => t('menu_admin.gestion_menu'), :title => t('menu_admin.gestion_menu')), {:controller => "pages", :action => "index"}, :title => t('menu_admin.gestion_menu') %>
+              <%= link_to image_tag("og/icons/user.png", :alt => t('menu_admin.gestion_usuarios'), :title => t('menu_admin.gestion_usuarios')), {:controller => "users", :action => "index"}, :title => t('menu_admin.gestion_usuarios') %>
+              <%#= link_to image_tag("base/icons/locked.png", :alt => t('menu_admin.gestion_grupos'), :title => t('menu_admin.gestion_grupos')), {:controller => "roles", :action => "index"}, :title => t('menu_admin.gestion_grupos') %>
+              <%#= link_to image_tag("base/icons/edit.png", :alt => t('menu_admin.configurations'), :title => t('menu_admin.configurations')), {:controller => "config", :action => "index"}, :title => t('menu_admin.configurations') %>
+              <%#= link_to image_tag("base/icons/boletin.png", :alt => t('menu_admin.boletines'), :title => t('menu_admin.boletines')), {:controller => "boletins", :action => "index"}, :title => t('menu_admin.boletines') %>
+              <%#= link_to image_tag("base/icons/pedidos.png", :alt => t('menu_admin.pedidos'), :title => t('menu_admin.pedidos')), {:controller => "orders", :action => "index"}, :title => t('menu_admin.pedidos') %>
+			  <%#= link_to image_tag("base/icons/manual.png", :alt => t('menu_admin.manual')), {:controller => :pages, :action => :manual}, :title => t("menu_admin.manual") if admin? and File.exists?("#{RAILS_ROOT}/public/images/manual_web.pdf")%>
+			  <%= link_to image_tag("og/icons/logout.png", :alt => t('menu_admin.salir'), :title => t('menu_admin.salir')), destroy_user_session_path, :title => t('menu_admin.salir') %>
+
+
+        </div>
+</div>
+<script language="javascript">
+/* <![CDATA[ */
+    var i=0;
+    var private_url = "";
+    var loc = document.location.href.split("/");
+    while (i<loc.length) {
+        if (loc[i]=='site' || loc[i] == 'private') {
+            private_url += "/" + loc[i] + "/" + loc[i+1];
+            i++;
+        }
+        i++;
+    }
+/* ]]> */
+</script>
+
+<div id="cms">
+    <% end %>

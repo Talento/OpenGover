@@ -6,7 +6,7 @@
 </p>
 <p>
   <b>Application</b><br/>
-  <%= f.text_field :application_text %>
+  <%= select_tag "application_text", "<option>Select...</option>" + @available_applications.collect {|aa| "<option value=\"#{aa[:value].to_s.gsub("\"","'")}\">#{aa[:name]}</option>"}.join%>
 </p>
 <p>
   <b>Description</b><br/>
