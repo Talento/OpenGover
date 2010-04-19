@@ -4,7 +4,7 @@ module TemplateSpecHelper
   def valid_template_attributes
     {
       :name => "template example",
-      :content => "<div id=\"header\"><%= yield :header %></div><div id=\"header\"><%= yield %></div>",
+      :content => "<div id=\"header\">@@header@@</div><div id=\"header\">@@main@@</div>",
       :site_id => "1"
     }
   end
