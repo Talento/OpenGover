@@ -376,7 +376,7 @@ class Texto
   end
 
   def h_texto s
-    s.to_s.gsub(/&(?![a-z]+;)/, "&amp;").gsub(/\"/, "&quot;").gsub(/>/, "&gt;").gsub(/</, "&lt;").gsub(/€/,"&euro;")
+    s.to_s.gsub(/&(?![a-z]+;)/, "&amp;").gsub(/\"/, "&quot;").gsub(/>/, "&gt;").gsub(/</, "&lt;").gsub(Regexp.new("€".force_encoding("ASCII-8BIT")),"&euro;")
   end
 
   def h_texto_attr s
