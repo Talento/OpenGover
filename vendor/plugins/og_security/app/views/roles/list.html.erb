@@ -1,0 +1,39 @@
+
+<h2><%= t('main.heading_list', :object => Role.human_name.downcase) %></h2>
+
+<table class="listado-cms">
+  <thead>
+    <tr>
+      <th id="titulo"><%= Role.human_attribute_name("key")  %></th>
+      <th><%= Role.human_attribute_name("name")  %></th>
+      <th width="90px" class="actions"><%= t('main.actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for role in @roles %>
+      <tr>
+        <td class="titulo"><%= role.key %></td>
+        <td><%= role.name %></td>
+        <td class="actions">
+          <% unless role.es_grupo_admin? %>
+            <%= link_to image_tag("/images/base/icons/mini/locked.png"), {:action => 'edit_permissions', :id => role}, :class => 'editar', :title => t('rol.edit_permissions') %>
+          <% else %>
+            <%= image_tag("/images/base/icons/mini/blank.gif") %>
+          <% end %>
+          <%= link_to image_tag("/images/base/icons/mini/show.png", :alt =>t('main.show')), {:action => 'show', :id => role}, :title => t('main.show') %>
+          <%= link_to image_tag("/images/base/icons/mini/edit.png", :alt =>t('main.edit')), {:action => 'edit', :id => role}, :class => 'editar', :title => t('main.edit') %>
+          <%= link_to image_tag("/images/base/icons/mini/delete.png", :alt =>t('main.delete')), { :action => 'destroy', :id => role }, :confirm => t('main.confirm_delete'), :method => :post, :class => 'borrar', :title => t('main.delete') if role.borrable?%>
+
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @roles %>
+
+<div class="content-botones-cms">
+  <div class="botones-cms nuevo">
+    <%= link_to t('main.new', :object => Role.human_name), :action => 'new' %>
+  </div>
+</div>

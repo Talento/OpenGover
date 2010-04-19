@@ -6,8 +6,10 @@
         can :manage, :all
       else
         can :manage, User
-        can :new, Session
-        can :new, Registration
+        can :manage, Session
+        can :manage, Registration
+        can :manage, Password
+        can :manage, Confirmation
 
         can :read, :all
         can :show, Page

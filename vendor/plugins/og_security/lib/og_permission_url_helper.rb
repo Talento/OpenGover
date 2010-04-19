@@ -9,7 +9,7 @@ module OgPermissionUrlHelper
     def link_to_with_permissions(name, options = {}, html_options = {})
         url = case options
         when String
-            options
+            options.gsub(/https?:\/?\/?/,"").gsub(/^([^\/]+?)\//,"/")
         when :back
             @controller.request.env["HTTP_REFERER"] || 'javascript:history.back()'
         else
@@ -22,12 +22,11 @@ module OgPermissionUrlHelper
             :get
         end
 
-        # Por si salta una excepción al reconocer una ruta que no tiene controller
-        action_hash = options
-        begin
+#        action_hash = options
+#        begin
             action_hash = ActionController::Routing::Routes.recognize_path(url.gsub(/\?(.*)/,""), :method => method)
-        rescue
-        end
+#        rescue
+#        end
 
         controller = action_hash[:controller] || request.path_parameters[:controller]
         controller = request.path_parameters[:controller] if controller.blank?
@@ -35,20 +34,13 @@ module OgPermissionUrlHelper
         id = action_hash[:id]
 
 #        user = current_user
-#        user = nil
-#        begin
-#          user = current_user
-#        rescue
-#        end
+        user = current_user rescue user = User.new()
 
 
       if id.blank?
-        permission = @controller.can?(action.to_sym,controller.to_s.singularize.camelize.constantize) #Permission.for(user, action, controller ,'', id)
-logger.fatal "---------------------- #{action.to_sym} #{controller.to_s.singularize.camelize} -> #{permission}"
+        permission = Ability.new(user).can?(action.to_sym,controller.to_s.singularize.camelize.constantize) #Permission.for(user, action, controller ,'', id)
       else
-        permission = @controller.can?(action.to_sym,controller.to_s.singularize.camelize.constantize.find(id))
-logger.fatal "---------------------- #{action.to_sym} id(#{id}) -> #{permission}"
-logger.fatal "----------------------******* #{@controller.can?(:new, Registration)}"
+        permission = Ability.new(user).can?(action.to_sym,controller.to_s.singularize.camelize.constantize.find(id))
       end
 
         if permission

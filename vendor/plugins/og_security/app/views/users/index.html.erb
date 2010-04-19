@@ -1,0 +1,30 @@
+<h2><%= t('main.heading_list', :object => User.human_name.downcase) %></h2>
+
+<table class="listado-cms" cellpadding="0" cellspacing="0" style="clear: both;">
+  <thead>
+    <tr>
+      <th>Mail</th>
+      <th class="actions">Assign roles</th>
+      <th class="actions"><%= t('main.actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for user in @users %>
+      <tr>
+        <td><%=h user.email %></td>
+        <td class="actions">
+          <%= link_to "Assign roles", { :controller => 'users', :action => 'edit_roles', :id => user } %>
+        </td>
+        <td class="actions">
+          <%= link_to "Delete", { :controller => 'users', :action => 'destroy', :id => user }, :confirm => t('main.confirm_delete'), :method => :delete, :title => t('main.delete') unless user.eql?@user%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @users %> 
+
+<div class="buttons">
+    <%= link_to 'Back', :controller => :users, :action => :index %>
+</div>

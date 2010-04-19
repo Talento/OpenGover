@@ -1,0 +1,20 @@
+
+<h2>Roles assignment</h2>
+
+          <% form_tag :action => 'update_roles', :id => @user do %>
+            <div class="formulario">
+
+              <% for role in @roles %>
+  <%= check_box_tag "user[roles][]", role, @user.is?(role) %>
+  <%=h role.humanize %><br />
+<% end %>
+<%= hidden_field_tag "user[roles][]", "all" %>
+              <div>
+                  <%= submit_tag t('main.edit') %>
+            </div>
+            </div>
+          <% end %>
+
+<div class="buttons">
+    <%= link_to 'Back', :controller => :users, :action => :index %>
+</div>

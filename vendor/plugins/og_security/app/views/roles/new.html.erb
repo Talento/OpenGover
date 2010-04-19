@@ -1,0 +1,39 @@
+
+<h2><%= t('main.heading_new', :object => Role.human_name.downcase) %></h2>
+
+<% unless error_messages_for(:role).blank? %>
+  <div class="error-top-izq">
+    <div class="error-top-der">
+      <div class="error-bot-der">
+        <div class="error-bot-izq">
+          <%= error_messages_for :role %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="esq-top-izq">
+  <div class="esq-top-der">
+    <div class="esq-bottom-der">
+      <div class="esq-bottom-izq">
+        <div class="caja-formulario">
+
+          <% form_tag :action => 'create' do %>
+            <div class="formulario">
+              <%= render :partial => 'form' %>
+              <div class="content-botones-cms">
+                <div class="botones-cms guardar">
+                  <%= submit_tag t('main.submit') %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <%= volver_privado url_for( :action => 'list') %>

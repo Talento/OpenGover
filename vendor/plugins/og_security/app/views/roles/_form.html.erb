@@ -1,0 +1,28 @@
+
+
+<!--[form:group]-->
+
+<div>
+  <label for="role_name"><%= Role.human_attribute_name("name") %><%= t('main.required') %></label>
+  <%= hidden_field 'role', 'key' %>
+  <%= text_field 'role', 'name' %>
+</div>
+
+<div class="checkbox">
+  <%= check_box( "role", "check_ip" ) %>
+  <label for="role_check_ip"><%= Role.human_attribute_name("check_ip") %> </label>
+</div>
+
+<div><label><%= User.human_name.pluralize %></label></div>
+
+<div class="tresColumnas">
+	<% for user in @users %>
+    	<div>
+    		<label class="checkbox" name="user<%=user.id%>" id="user<%=user.id%>">
+	    	<%= check_box_tag "user_ids[]", "#{user.id}", @role.user?(user) %>
+    		<%= user.login%></label>
+		</div>
+	<% end %>
+</div>
+<!--[eoform:group]-->
+

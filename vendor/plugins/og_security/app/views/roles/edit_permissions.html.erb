@@ -1,0 +1,58 @@
+
+<h2><%= t('rol.permissions_for_group', :group_name => @role.name) %></h2>
+
+<div class="esq-top-izq">
+  <div class="esq-top-der">
+    <div class="esq-bottom-der">
+      <div class="esq-bottom-izq">
+        <div class="caja-formulario">
+          <% form_tag :action => 'update_permissions', :id => @role do %>
+            <div class="formulario text">
+              <% grupo = "" %>
+              <table class="listado-cms">
+                <thead>
+                	<tr>
+		                <th><%= t('rol.task') %></th>
+		                <th><%= t('rol.allowed') %></th>
+		           		<th><%= t('rol.denied') %></th>
+					</tr>
+                </thead>
+				<tbody>
+	                <% for action in @actions %>
+	                  <% if action.controller!=grupo %>
+	                    <% grupo = action.controller %>
+	                    <%
+	                    begin
+	                      txt_grupo = grupo.singularize.camelize.constantize.human_name
+	                    rescue
+	                      txt_grupo = grupo
+	                    end
+	                  %>
+	                    <tr>
+	                      <td colspan="3" class="destacado"><%=grupo%></td>
+	                    </tr>
+	                  <% end %>
+	                  <tr>
+	                    <td class="nombre-permiso"><label for="permission_action_<%=action.id%>"><%=action.description%></label></td>
+	                    <td class="permitida"><input type="radio" name="permission_action_<%=action.id%>" value="1" <%= "checked=\"checked\"" if @role.permission_for(action)==1 %>/></td>
+	                    <td class="prohibida"><input type="radio" name="permission_action_<%=action.id%>" value="0" <%= "checked=\"checked\"" if @role.permission_for(action)==0 %>/></td>
+	                  </tr>
+	
+	                <% end %>
+				</tbody>
+              </table>
+              <div class="content-botones-cms">
+                <div class="botones-cms guardar">
+                  <%= submit_tag t('main.submit') %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <%= volver_privado url_for(:action => 'index') %>

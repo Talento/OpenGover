@@ -10,7 +10,7 @@ def self.included(base)
     load_and_authorize_resource
 
     rescue_from CanCan::AccessDenied do |exception|
-      flash[:error] = "Access denied."
+      flash[:error] = "Access denied." + request.request_uri
       redirect_to root_url
     end
 
