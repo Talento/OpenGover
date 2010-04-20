@@ -100,12 +100,12 @@ class Texto
         url = imagen[0].scan r_src
         if !url.blank?
           url = url[0][0]
-          image = Image.find_by_filename url.split("/")[2]
+          image = Image.find_by_url url
           size = imagen[0].scan r_style
           # Si nos meten dimensiones, redimensionamos
           unless size.blank?
-            image.scale_to size[0][0], size[0][1]
-            nuevo = "#{size[0][0]}x#{size[0][1]}_" + image.image_name
+            #image.scale_to size[0][0], size[0][1]
+            nuevo = image.file.url_for_size(size[0][0],size[0][1])
             r_image = Regexp.new("<img([^>]*?)src=\"/#{url}\"([^>]*?)>",Regexp::MULTILINE | Regexp::IGNORECASE)
             res = texto.scan r_image
 #            texto.gsub!(r_image,"<img src=\"#{image.path_url + nuevo}\" #{res[0][1]} alt=\"#{res[0][2]}\" class=\"#{res[0][3]}\" width=\"#{size[0][0]}\" height=\"#{size[0][1]}\"/>")
@@ -119,7 +119,7 @@ class Texto
             post.gsub!("width=\"([^\"]*?)\"","")
             pre.gsub!("height=\"([^\"]*?)\"","")
             post.gsub!("height=\"([^\"]*?)\"","")
-            "<img #{pre} src=\"#{image.path_url + nuevo}\" #{post} width=\"#{size[0][0]}\" height=\"#{size[0][1]}\"/>"
+            "<img #{pre} src=\"#{nuevo}\" #{post} width=\"#{size[0][0]}\" height=\"#{size[0][1]}\"/>"
           end
           end
         end

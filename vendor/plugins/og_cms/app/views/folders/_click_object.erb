@@ -26,11 +26,11 @@
 	<p class="accion-caja"><%= t('main.add_content') %></p>
 	<div class="dimensiones">
 		<label for="preview_<%=@type%>_width"><%= t('main.size') %>:</label>
-		<input id="preview_<%=@type%>_width" type="text" maxlength="4" size="5" name="<%=@type%>_width" value="<%= @object.width %>"/>
-		<%= hidden_field_tag "preview_#{@type}_original_width", @object.width %>
+		<input id="preview_<%=@type%>_width" type="text" maxlength="4" size="5" name="<%=@type%>_width" value="<%= @object.file.width %>"/>
+		<%= hidden_field_tag "preview_#{@type}_original_width", @object.file.width %>
 		<label>x</label>
-		<input id="preview_<%=@type%>_height" type="text" maxlength="4" size="5" name="<%=@type%>_height" value="<%= @object.height %>"/>
-		<%= hidden_field_tag "preview_#{@type}_original_height", @object.height %>
+		<input id="preview_<%=@type%>_height" type="text" maxlength="4" size="5" name="<%=@type%>_height" value="<%= @object.file.height %>"/>
+		<%= hidden_field_tag "preview_#{@type}_original_height", @object.file.height %>
 		<%= image_tag "thickbox/TB_select_proporcional.gif", :alt => t('main.proporcional'), :class => "select_proporcional sel" %>
 
 		<%= hidden_field :select, :proporcional %>
