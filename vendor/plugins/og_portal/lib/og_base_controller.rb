@@ -17,7 +17,7 @@ module OgBaseController
   end
 
   module InstanceMethods
-
+    
     private
 
     def og_add_layout
@@ -83,6 +83,7 @@ module OgBaseController
 
       params[:og_site] = og_get_site
       params[:og_user] = current_user
+      params[:og_user_login] = current_user.id if user_signed_in?
 
       #default_url_options[:og_site_id] = params[:og_site_id] unless params[:og_site_id].blank?
       #default_url_options[:og_locale] = params[:og_locale] unless params[:og_locale].blank?

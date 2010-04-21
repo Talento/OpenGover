@@ -45,7 +45,7 @@ module Joint
           if file.nil?
             nil_attachments << :#{name}
           else
-            self["#{name}_id"]             = Mongo::ObjectID.new if self["#{name}_id"].nil?
+            self["#{name}_id"]             = BSON::ObjectID.new if self["#{name}_id"].nil?
             self["#{name}_size"]           = File.size(file)
             self["#{name}_type"]           = Wand.wave(file.path)
             self["#{name}_version"] += 1
@@ -84,19 +84,19 @@ module Joint
           if file.nil?
             nil_attachments << :#{name}
           else
-            self["#{name}_id"]             = Mongo::ObjectID.new if self["#{name}_id"].nil?
+            self["#{name}_id"]             = BSON::ObjectID.new if self["#{name}_id"].nil?
             self["#{name}_size"]           = File.size(file)
             self["#{name}_type"]           = Wand.wave(file.path)
             self["#{name}_version"] = 1
 
-            begin
-              img = ::Magick::Image.from_blob(file.read).first
-              self["#{name}_width"] = img.columns
-              self["#{name}_height"] = img.rows
-            rescue
+#            begin
+#              img = ::Magick::Image.from_blob(file.read).first
+#              self["#{name}_width"] = img.columns
+#              self["#{name}_height"] = img.rows
+#            rescue
               self["#{name}_width"] = 0
               self["#{name}_height"] = 0
-            end
+#             end
 
             self["#{name}_original_name"]  = Joint.file_name(file)
             self["#{name}_name"]           = self["#{name}_id"].to_s + File.extname(self["#{name}_original_name"])
@@ -247,6 +247,10 @@ module Joint
 
     def url
       "#{@instance.image_base_url}#{width}x#{height}_v#{version}_#{name}"
+    end
+
+    def url_for_size(w,h)
+      "#{@instance.image_base_url}#{w}x#{h}_v#{version}_#{name}"
     end
 
     def grid_io

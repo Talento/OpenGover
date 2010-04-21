@@ -1,7 +1,7 @@
 <li id="item_<%=page.id%>" class="<%= cycle("even", "odd") -%>">  			
-    
+
     <div class="opciones-menu">
-	  <div class="acciones">	
+	  <div class="acciones">
 	    <%= link_to "Edit", { :controller => 'pages', :action => 'edit', :id => page},:title => t('main.edit') %>
 	    <%= link_to "Add", { :controller => 'pages', :action => 'new', :parent_id => page},:title => t('main.new'), :class => 'edit' %>
 	    <%= link_to "Delete", { :controller => 'pages', :action => 'destroy', :id => page}, :title => t('main.delete'),:confirm => t('main.confirm_delete'), :method => :post %>
@@ -21,8 +21,8 @@
 	    <%= link_to "Down", { :controller => 'pages', :action => 'page_down', :id => page},:title => t('main.down'), :class => 'bajar' %>
 	  <% end %>
       <% end %>
-	</div>  
-  
+	</div>
+
   <div class="titulo-pagina-gestion">
     <%= link_to_page(page) %>
     <br/>
@@ -35,7 +35,7 @@
     <% if page.in_menu %>
       <span class="page-en-menu">In menu (<%= link_to "Remove from menu", :controller => :pages, :action => :hide_in_menu, :id => page %>)</span>
     <% else %>
-      <span class="page-no-en-menu">Not in menu (<%= link_to "Add to menú", :controller => :pages, :action => :show_in_menu, :id => page %>)</span>
+      <span class="page-no-en-menu">Not in menu (<%= link_to "Add to menu", :controller => :pages, :action => :show_in_menu, :id => page %>)</span>
     <% end %>
   </div>  	
 

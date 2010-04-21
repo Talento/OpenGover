@@ -14,10 +14,12 @@ class Image
 #  key :height, Integer
   timestamps!
   #mount_uploader :file, ImageUploader
+  image_attachment(:file, {:thumb => "c200X200", :thumbnail => "c50x50", :tree => "c24x24", :gallery => "476x357", :gallery_thumb => "98x74"})
 
   slug :title
 
   belongs_to :user
+  belongs_to :folder
 #  belongs_to :site
 
   #after_save :set_size
@@ -26,7 +28,6 @@ class Image
   validates_presence_of :title #, :file
 
 
-  image_attachment(:file, {:thumb => "c200X200", :thumbnail => "c50x50", :tree => "c24x24", :gallery => "476x357", :gallery_thumb => "98x74"})
 
 
 #  image_column :image, :store_dir => proc{|record, file| "image/#{record.id}"}, :versions => { :thumbnail => "200x150", :tree => "c24x24", :gallery => "476x357", :gallery_thumb => "98x74"}
@@ -35,10 +36,18 @@ class Image
     ['jpg','jpeg','gif','png']
   end
 
-  def self.find_by_filename (name)
-    Image.first(:file_filename => name)
-
+  def self.find_by_url(url)
+      key = ""
+      url.gsub(/\?.*/,"").gsub(/\/c?(\d*)x(\d*)_v(.*?)_(.*?)\.(.*?)$/){
+        key =   $4
+      }
+    Image.first(:file_id => key)
   end
+
+  def url_for_size(w,h)
+    
+  end
+
 
 ##  def valid_format?
 ##    self.image && Image.valid_formats.include?(self.image.file_name.split(".").last.downcase)
@@ -62,16 +71,16 @@ class Image
 #    self.title || self.image.to_s || ''
 #  end
 #
-def set_size
-  #if self.file
-    img = ::Magick::Image.from_blob(self.file.read).first
-    if self.width != img.columns || self.height != img.rows
-      self.width = img.columns
-      self.height = img.rows
-      self.save
-    end
-  #end
-end
+#def set_size
+#  #if self.file
+#    img = ::Magick::Image.from_blob(self.file.read).first
+#    if self.width != img.columns || self.height != img.rows
+##      self.width = img.columns
+#      self.height = img.rows
+#      self.save
+#    end
+#  #end
+#end
 ##
 ##  # Antes de destruir comprobamos que no esté asociada a nada
 ##  def before_destroy
@@ -113,21 +122,23 @@ end
 #    crop_image.write(self.image.thumbnail.path){self.image.thumbnail.path.split(".").last.downcase.eql?"gif" ?  self.quality=100 :  self.quality=80}
 #  end
 #
-#  def crop_all(x,y,width,height)
-#     imag = ::Magick::Image.read(RAILS_ROOT+"/public" + image.url).first
-#     crop_image = imag.crop(x.to_f, y.to_f, width.to_f, height.to_f, true)
-#
-#     crop_image.write(RAILS_ROOT+"/public" + image.url)
-#     self.image = File.open(self.image.path)
-#     self.save
-#     Dir.entries(path_image).each do |f|
-#       size = f.split("_").first.gsub("c","").split("x")
-#       if (size.length == 2)
-#         # Hay que redimensionar nuevamente
-#         rescale_to "#{size[0]}x#{size[1]}"
-#       end
-#     end
-#  end
+  def crop(x,y,width,height)
+     imag = ::Magick::Image.from_blob(file.read).first #::Magick::Image.read(RAILS_ROOT+"/public" + image.url).first
+     self.file = imag.crop(x.to_f, y.to_f, width.to_f, height.to_f, true)
+     self.save
+     #crop_image = imag.crop(x.to_f, y.to_f, width.to_f, height.to_f, true)
+
+     #crop_image.write(RAILS_ROOT+"/public" + image.url)
+     #self.image = File.open(self.image.path)
+     #self.save
+     #Dir.entries(path_image).each do |f|
+     #  size = f.split("_").first.gsub("c","").split("x")
+     #  if (size.length == 2)
+     #    # Hay que redimensionar nuevamente
+     #    rescale_to "#{size[0]}x#{size[1]}"
+     #  end
+     #end
+  end
 #
 #
 #  def rescale
@@ -150,8 +161,10 @@ end
 #        end
 #  end
 #
-#  def rotate angle
-#    imag = ::Magick::Image.read(RAILS_ROOT+"/public" + image.url).first
+  def rotate angle
+    imag = ::Magick::Image.from_blob(file.read).first #::Magick::Image.read(RAILS_ROOT+"/public" + image.url).first
+    self.file = imag.rotate(angle)
+    se  lf.save
 #    imag.rotate(angle).write(RAILS_ROOT+"/public" + image.url)
 #    self.image = File.open(self.image.path)
 #    self.save
@@ -163,7 +176,7 @@ end
 #        imag.rotate(angle).write(path_image + f)
 #      end
 #    end
-#  end
+  end
 #
 #  def clone_with_files
 #    i = clone

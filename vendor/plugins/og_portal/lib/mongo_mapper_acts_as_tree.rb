@@ -37,7 +37,7 @@ module MongoMapper
 
       module ClassMethods
         def roots
-          self.all(parent_id_field => nil, :order => tree_order)
+          self.all(parent_id_field => "", :order => tree_order)
         end
       end
 
@@ -67,8 +67,8 @@ module MongoMapper
         end
 
         def fix_position
-          if parent.nil?
-            self[parent_id_field] = nil
+          if parent.blank?
+            self[parent_id_field] = ""
             self[path_field] = []
             self[depth_field] = 0
           else
@@ -79,15 +79,15 @@ module MongoMapper
         end
 
         def parent
-          @_parent or (self[parent_id_field].nil? ? nil : self.class.find(self[parent_id_field]))
+          @_parent or (self[parent_id_field].blank? ? "" : self.class.find(self[parent_id_field]))
         end
 
         def root?
-          self[parent_id_field].nil?
+          self[parent_id_field].blank?
         end
 
         def root
-          self[path_field].first.nil? ? self : self.class.find(self[path_field].first)
+          self[path_field].first.blank? ? self : self.class.find(self[path_field].first)
         end
 
         def ancestors

@@ -16,14 +16,14 @@ class MongoFiles
       width = 0
       height = 0
       key = ""
-      env["PATH_INFO"].gsub(/\?.*/,"").gsub(/^\/uploads\/images\/c?(\d*)x(\d*)_v(.*?)_(.*?)$/){
+      env["PATH_INFO"].gsub(/\?.*/,"").gsub(/^\/uploads\/images\/c?(\d*)x(\d*)_v(.*?)_(.*?)\.(.*?)$/){
         width = $1
         height = $2
         key =   $4
       }
       crop = true if env["PATH_INFO"] =~ /^\/uploads\/images\/c(.+)$/
       begin
-        file = Mongo::Grid.new(MongoMapper.database).get(Mongo::ObjectID.from_string(key))
+        file = Mongo::Grid.new(MongoMapper.database).get(BSON::ObjectID.from_string(key))
 
      # if GridStore.exist?(MongoMapper.database,key)
      #     GridStore.open(MongoMapper.database, key, 'r') do |file|
@@ -47,10 +47,10 @@ class MongoFiles
       rescue
         [404, {"Content-Type" => "text/html"}, ["Not Found"]]
         end
-    elsif env["PATH_INFO"] =~ /^\/uploads\/files\/(.+)$/
-      key="images/#{$1}"
+    elsif env["PATH_INFO"] =~ /^\/uploads\/files\/v(.*?)_(.*?)\.(.*?)$/
+      key=$2
       begin
-        file = Mongo::Grid.new(MongoMapper.database).get(Mongo::ObjectID.from_string(key))
+        file = Mongo::Grid.new(MongoMapper.database).get(BSON::ObjectID.from_string(key))
       #if GridStore.exist?(MongoMapper.database,key)
       #    GridStore.open(MongoMapper.database, key, 'r') do |file|
               [200, {"Content-Type" => file.content_type}, [file.read]]

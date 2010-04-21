@@ -1,5 +1,11 @@
 
 module OgBaseHelper
+
+
+    def after_sign_in_path_for(resource)
+      {:controller => 'pages', :action => 'show', :og_user_login => current_user.id}
+    end
+    
     def link_to_page(page, options={})
         pagina = page.name
         if page.link.blank?
