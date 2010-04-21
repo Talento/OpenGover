@@ -18,7 +18,7 @@ class OgRackSeoOptimizer
       site = Site.all.select{|site| site.domain==host || site.alias.include?(host)}.first || Site.first
     end
     unless action_hash[:og_locale].blank?
-      lang = site.languages.collect{|item| item if item.locale==action_hash([:og_locale])}.first || site.languages.first
+      lang = site.languages.collect{|item| item if item.locale==action_hash[:og_locale]}.first || site.languages.first
     else
       lang = site.languages.first
     end
@@ -26,9 +26,6 @@ class OgRackSeoOptimizer
     if OgSeoOptimizer.og_redirections["site_#{site.to_param}"] && OgSeoOptimizer.og_redirections["site_#{site.to_param}"][locale] && (OgSeoOptimizer.og_redirections["site_#{site.to_param}"][locale]["enabled"]=="1")
       p = path
       p.gsub! %r(%2F), '/'
-#      p.gsub! %r(/site/([\d]+)/), '/' if p.include?("/site/")
-#      p.gsub! %r(/private/(.*?)/), '/' if p.include?("/private/")
-#      p.gsub! %r(/nocache/), '/' if p.include?("/nocache/")
       p.sub!(%r(/(.*?))){"#{$1}"} if p.starts_with?("/")
       p.sub!(%r((.*?)/)){"#{$1}"} if p.ends_with?("/")
       unless OgSeoOptimizer.og_redirections["site_#{site.to_param}"][locale].invert[p].blank?
