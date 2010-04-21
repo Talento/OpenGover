@@ -60,8 +60,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect  'private/:user_login/:controller/:action/:id'
   map.connect  'private/:user_login/:controller/:action/:id.:format'
 
-  map.connect  ':site/:og_site_id/:controller/:action/:id'
-  map.connect  ':site/:og_site_id/:controller/:action/:id.:format'
+  map.connect  'site/:og_site_id/:controller/:action/:id'
+  map.connect  'site/:og_site_id/:controller/:action/:id.:format'
 
   map.connect  ':controller/:action/:id'
   map.connect  ':controller/:action/:id.:format'
