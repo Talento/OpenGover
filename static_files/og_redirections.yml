@@ -1,5 +1,5 @@
 ---
 site_4ba0ad06b3b11e0fb1000001:
   en:
-    enabled: "1"
+    enabled: "0"
     signups/sign_in: signups/sign_up
