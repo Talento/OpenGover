@@ -1,6 +1,7 @@
 class Site
 
   include MongoMapper::Document
+  include Slug
   key :name, String, :required => true
   key :domain, String
   key :alias, Array, :default => []
@@ -15,6 +16,8 @@ class Site
   many :templates
   many :pages
 
+  slug :name
+  
   validates_presence_of :languages, :templates
 
   def first_public_page
