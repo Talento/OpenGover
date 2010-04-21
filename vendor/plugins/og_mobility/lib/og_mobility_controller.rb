@@ -115,4 +115,4 @@ end
 
 end
 
-ApplicationController.send(:include, OgMobilityController)
+ActionController::Base.send(:include, OgMobilityController)
