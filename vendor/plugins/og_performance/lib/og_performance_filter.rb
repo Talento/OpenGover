@@ -6,24 +6,22 @@ class OgPerformanceFilter
   def call(env)
     @status, @headers, @response = @app.call(env)
 
-    #Perform the cache
+    @path = env["PATH_INFO"]
+    @path = @path.gsub("http://","")
+    @path = @path.gsub(/^(.*?)\//,"") unless @path.starts_with?("/")
+    @path = page_cache_file(@path)
 
+    if !@headers["Content-Type"].blank? && @headers["Content-Type"].include?("text/html") && !env['REQUEST_URI'].include?("?")
 
-      if !@headers["Content-Type"].blank? && @headers["Content-Type"].include?("text/html")
-
-        pag = PageCache.new()
+            pag = PageCache.find_by_path(@path) || PageCache.new()
         #pag.resources = params[:og_resources_log]
         pag.resources = ResourceLog.resources
-        @path = env["PATH_INFO"]
-        @path = @path.gsub("http://","")
-        @path = @path.gsub(/^(.*?)\//,"") unless @path.starts_with?("/")
-        pag.path = page_cache_file(@path)
+        pag.path = @path
         grid = Mongo::GridFileSystem.new(MongoMapper.database)
         grid.open(pag.path, 'w') do |f|
           f.write @response.body
         end
         pag.save
-
       end
 
 
@@ -36,7 +34,7 @@ class OgPerformanceFilter
   end
 
   private
-  
+
           def page_cache_file(path)
             name = (path.empty? || path == "/") ? "/index" : URI.unescape(path.chomp('/'))
             name << '.html' unless (name.split('/').last || name).include? '.'

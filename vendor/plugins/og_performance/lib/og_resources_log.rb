@@ -9,6 +9,8 @@ module MongoMapper
 
           if simple_find?(criteria)
             ResourceLog.add_resource(self.name, criteria[:_id])
+          else
+            ResourceLog.add_resource(self.name, :all)  
           end
           super
         end
