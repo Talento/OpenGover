@@ -91,7 +91,7 @@ module OgBaseController
       if !params[:og_locale].blank?
         I18n.locale = params[:og_locale]
       elsif params[:og_site].languages && params[:og_site].languages.size>0
-        I18n.locale = params[:og_site].languages.first.locale
+        params[:og_locale], I18n.locale = params[:og_site].languages.first.locale
       end
 
 

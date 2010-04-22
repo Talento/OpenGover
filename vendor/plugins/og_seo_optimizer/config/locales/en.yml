@@ -1,0 +1,9 @@
+en:
+  og_redirections:
+    no: "no"
+    off: "Off"
+    on: "On"
+    original: "Original page"
+    redirected: "Redirected page"
+    redirections_manage: "Redirections Manage"
+    yes: "yes"
