@@ -37,7 +37,6 @@ class OgMobility
     body = og_clean_unaccepted_tags_for_mobile(body)
     # Load CSS for mobile
     body = og_load_mobile_css(body)
-    Rails.logger.fatal "---------------------"
     body
   end
 
