@@ -73,5 +73,5 @@ class MongoFiles
     rescue StandardError => e
       raise ConnectionError, "Timeout connecting to GridFS (#{e.to_s})"
     end
-  
+
 end
