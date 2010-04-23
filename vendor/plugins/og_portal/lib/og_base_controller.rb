@@ -68,13 +68,12 @@ module OgBaseController
           end
         end
 
-        response.body.gsub!(/(.*?)<body(.*?)>(.*?)<\/body>(.*?)/im){"#{$1}<body#{$2}>#{admin_beginning + template_content + admin_ending}</body>#{$4}"}
+        response.body.gsub!(/(.*?)<body(.*?)>(.*?)<\/body>(.*?)/im){"#{$1}<body#{$2}>#{admin_beginning + template_content + admin_ending}<br/>#{ResourceLog.resources.to_s}</body>#{$4}"}
 
 
         template_header = params[:og_template].header || ""
         response.body.gsub!(/<\/head>/im, template_header+"</head>")
 
-#       response.body = final_response
       end
     end
 
@@ -92,6 +91,7 @@ module OgBaseController
         I18n.locale = params[:og_locale]
       elsif params[:og_site].languages && params[:og_site].languages.size>0
         I18n.locale = params[:og_site].languages.first.locale
+        params[:og_locale] = I18n.locale
       end
 
 
@@ -221,7 +221,7 @@ module OgBaseController
 
   end
   module ClassMethods
-
+    
   end
 
 end
