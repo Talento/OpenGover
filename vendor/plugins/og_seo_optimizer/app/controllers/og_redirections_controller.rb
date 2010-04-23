@@ -13,13 +13,9 @@ class OgRedirectionsController < ApplicationController
       red["#{k}"]= confs[k]
     end
     aux = OgSeoOptimizer.og_redirections
+    aux["site_#{params[:og_site].id}"]={} if aux["site_#{params[:og_site].id}"].nil?
     aux["site_#{params[:og_site].id}"][params[:og_locale]] = red
-    f = File.open("#{RAILS_ROOT}/static_files/og_redirections.yml", "w") do |file|
-      file << aux.to_yaml
-    end
-    OgSeoOptimizer.og_redirections = YAML.load(File.open("#{RAILS_ROOT}/static_files/og_redirections.yml"))
-    #RoutingFilter.cms_redirections_inverse = RoutingFilter.cms_redirections.invert
-
+    OgSeoOptimizer.og_redirections = aux
   end
 #
 #  def write_metas(confs)
