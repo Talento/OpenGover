@@ -1,33 +1,24 @@
-module OgMobilityController
+class OgMobility
+  # Different mobile browsers
+  OG_MOBILE_BROWSERS = ["android", "ipod", "opera mini", "blackberry", "palm","hiptop","avantgo","plucker", "xiino","blazer","elaine", "windows ce; ppc;", "windows ce; smartphone;","windows ce; iemobile", "up.browser","up.link","mmp","symbian","smartphone", "midp","wap","vodafone","o2","pocket","kindle", "mobile","pda","psp","treo"]
+  # Tags nos accepted in mobile version
+  OG_UNACCEPTED_MOBILE_TAGS = ["object"]
+  # Never delete tags with this class
+  OG_ACCEPTED_CLASS = ["mobile_img"]
+  # CSS nor accepted in mobile version
+  OG_UNACCEPTED_CSS = ["nomobile"]
 
-def self.included(base)
-
-  base.send :extend, ClassMethods
-  base.send :include, InstanceMethods
-  base.class_eval do
-
-    after_filter :og_detect_mobile
+  def initialize(app)
+    @app = app
   end
 
-end
-
- module InstanceMethods
-
- private
-
- # Different mobile browsers
- OG_MOBILE_BROWSERS = ["android", "ipod", "opera mini", "blackberry", "palm","hiptop","avantgo","plucker", "xiino","blazer","elaine", "windows ce; ppc;", "windows ce; smartphone;","windows ce; iemobile", "up.browser","up.link","mmp","symbian","smartphone", "midp","wap","vodafone","o2","pocket","kindle", "mobile","pda","psp","treo"]
- # Tags nos accepted in mobile version
- OG_UNACCEPTED_MOBILE_TAGS = ["object"]
- # Never delete tags with this class
- OG_ACCEPTED_CLASS = ["mobile_img"]
- # CSS nor accepted in mobile version
- OG_UNACCEPTED_CSS = ["nomobile"]
- 
-  def og_detect_mobile
-    unless self.response.headers['Content-Disposition'] || !self.response.headers['Content-Type'] || !self.response.headers['Content-Type'].include?('text/html') || !OG_MOBILE_BROWSERS.include?(request.headers["HTTP_USER_AGENT"].downcase)
+  def call(env)
+    status, headers, response = @app.call(env)
+    if headers['Content-Type'] && headers['Content-Type'].include?('text/html') && !(OG_MOBILE_BROWSERS.find{|item| env['HTTP_USER_AGENT'].downcase=~Regexp.new(item)}).blank?
       response.body = og_mobile_version response.body
+      headers['Content-Length'] = response.body.length.to_s
     end
+    [status, headers, response]
   end
 
   def og_mobile_version body
@@ -46,6 +37,7 @@ end
     body = og_clean_unaccepted_tags_for_mobile(body)
     # Load CSS for mobile
     body = og_load_mobile_css(body)
+    Rails.logger.fatal "---------------------"
     body
   end
 
@@ -100,19 +92,11 @@ end
       c2 = $3.clone
       result = ""
       if (OG_UNACCEPTED_CSS.find{|item| stylesheet=~Regexp.new(item)}).blank?
-        result = "<link href=\"#{stylesheet.gsub(/\/([^\/]*?)$/,"/mobile_#{$1}")}\"#{c1}rel=\"stylesheet\"#{c2}/>" 
+        result = "<link href=\"#{stylesheet.gsub(/\/([^\/]*?)$/,"/mobile_#{$1}")}\"#{c1}rel=\"stylesheet\"#{c2}/>"
       end
      result
    }
    body
  end
 
- end
-
- module ClassMethods
-
- end
-
 end
-
-ActionController::Base.send(:include, OgMobilityController)

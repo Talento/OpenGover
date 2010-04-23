@@ -1,0 +1,48 @@
+
+<h2><%= t('og_redirections.redirections_manage') %></h2>
+
+<div class="esq-top-izq">
+  <div class="esq-top-der">
+    <div class="esq-bottom-der">
+      <div class="esq-bottom-izq">
+        <div class="caja-formulario">
+
+          <% form_tag({:action => 'index'})do %>
+
+
+<div><label for="configuration_key"><%= t('og_redirections.on') %></label>
+  <% s = OgSeoOptimizer.og_redirections["site_#{params[:og_site].id}"] && OgSeoOptimizer.og_redirections["site_#{params[:og_site].id}"][params[:og_locale]] && (OgSeoOptimizer.og_redirections["site_#{params[:og_site].id}"][params[:og_locale]]["enabled"]=="1") %>
+<%= select_tag "redirections_enabled", "<option value=\"0\" #{"selected=\"selected\"" unless s}>#{t('og_redirections.no')}</option><option value=\"1\" #{"selected=\"selected\"" if s}>#{t('og_redirections.yes')}</option>"  %></div>
+
+<% n = 0
+keys = @redirections.keys rescue {}
+%>
+
+<% keys.each_with_index do |k,i| %>
+     <% if k!="enabled" %>
+        <% n += 1 %>
+        <div>
+          <%= t('og_redirections.original') %> http://<%=request.host_with_port%>/ <%= text_field_tag "red_#{n}_from", k %>
+          <%= t('og_redirections.redirected') %> http://<%=request.host_with_port%>/ <%= text_field_tag "red_#{n}_to", @redirections[k] %>
+        </div>
+    <% end %>
+<% end %>
+        <div>
+          <%= hidden_field_tag "num_redir", n %>
+          <%= t('og_redirections.original') %> http://<%=request.host_with_port%>/ <%= text_field_tag "new_from" %>
+          <%= t('og_redirections.redirected') %> http://<%=request.host_with_port%>/ <%= text_field_tag "new_to" %>
+        </div>
+
+            <div class="content-botones-cms">
+              <div class="botones-cms guardar">
+                <%= submit_tag t('main.submit'), :class => 'boton' %>
+              </div>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

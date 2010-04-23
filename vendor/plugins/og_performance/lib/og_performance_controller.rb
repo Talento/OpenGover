@@ -24,6 +24,10 @@ module OgPerformanceController
 
 #      params[:og_resources_log] = []
       ResourceLog.resources = []
+      ResourceLog.perform_caching = true
+      ResourceLog.perform_caching = false if request.request_uri =~ /\/signups\//
+      ResourceLog.perform_caching = false if user_signed_in? && !(request.request_uri =~ /\/private\//)
+      ResourceLog.perform_caching = false unless request.get? #if params[:method].to_s!="get"
 
     end
 

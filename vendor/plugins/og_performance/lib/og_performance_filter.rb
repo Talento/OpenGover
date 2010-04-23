@@ -6,12 +6,15 @@ class OgPerformanceFilter
   def call(env)
     @status, @headers, @response = @app.call(env)
 
+    if @status==200 && ResourceLog.perform_caching
     @path = env["PATH_INFO"]
     @path = @path.gsub("http://","")
     @path = @path.gsub(/^(.*?)\//,"") unless @path.starts_with?("/")
     @path = page_cache_file(@path)
 
     if !@headers["Content-Type"].blank? && @headers["Content-Type"].include?("text/html") && !env['REQUEST_URI'].include?("?")
+
+Rails.logger.fatal "**************** Cached: " + env['REQUEST_URI'] 
 
             pag = PageCache.find_by_path(@path) || PageCache.new()
         #pag.resources = params[:og_resources_log]
@@ -23,7 +26,7 @@ class OgPerformanceFilter
         end
         pag.save
       end
-
+     end
 
     [@status, @headers, self]
   end

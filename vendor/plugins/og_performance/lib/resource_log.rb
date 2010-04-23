@@ -1,8 +1,10 @@
   class ResourceLog
 
     @@resources = []
+    @@perform_caching = true
 
     cattr_accessor :resources
+    cattr_accessor :perform_caching
 
     #def self.resources
     #  @@resources

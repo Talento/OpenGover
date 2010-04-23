@@ -5,7 +5,7 @@ class PrivateCache
 
   def call(env)
     if env["PATH_INFO"] =~ /^\/private\/(.+)$/
-      user_login = env["PATH_INFO"].gsub(/\?.*/,"").gsub(/^\/private\/(.*?)\/?/){$1}
+      user_login = env["PATH_INFO"].gsub(/\?.*/,"").gsub(/^\/private\//,"").gsub(/\/(.*?)$/,"")
       if env["warden"].authenticated? && env["warden"].user.id==user_login
         begin
           file = Mongo::GridFileSystem.new(MongoMapper.database).open(page_cache_file(env["PATH_INFO"].gsub(/\?.*/,"")),'r')

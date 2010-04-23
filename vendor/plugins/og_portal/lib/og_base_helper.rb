@@ -25,7 +25,9 @@ module OgBaseHelper
          else
            url + "?" + rand(999999).to_s
          end
-	end
+    end
+  
 end
 
 ActionView::Base.send(:include, OgBaseHelper)
+

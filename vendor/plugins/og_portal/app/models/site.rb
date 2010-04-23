@@ -1,6 +1,7 @@
 class Site
 
   include MongoMapper::Document
+  include Slug
   key :name, String, :required => true
   key :domain, String
   key :alias, Array, :default => []
@@ -10,10 +11,12 @@ class Site
 #  has_many_related :templates
 #  has_many_related :pages
 #  has_many :languages
-  
+
   many :languages
   many :templates
   many :pages
+
+  slug :name
 
   validates_presence_of :languages, :templates
 
