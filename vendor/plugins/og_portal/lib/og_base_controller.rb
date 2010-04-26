@@ -68,7 +68,7 @@ module OgBaseController
           end
         end
 
-        response.body.gsub!(/(.*?)<body(.*?)>(.*?)<\/body>(.*?)/im){"#{$1}<body#{$2}>#{admin_beginning + template_content + admin_ending}<br/>#{ResourceLog.resources.to_s}</body>#{$4}"}
+        response.body.gsub!(/(.*?)<body(.*?)>(.*?)<\/body>(.*?)/im){"#{$1}<body#{$2}>#{admin_beginning + template_content + admin_ending}</body>#{$4}"}
 
 
         template_header = params[:og_template].header || ""
