@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'lingua/stemmer'
+
 module Searchable
   def self.included(base)
     base.send :extend, ClassMethods
@@ -59,15 +61,18 @@ module Searchable
       s_title = self.send(title_field)
       s_indexed_doc = SIndexedDocument.create(:doc_type => self.class.name, :doc_id => self.id, :title => s_title)
 
+      stemmer= Lingua::Stemmer.new(:language => I18n.locale.to_s)
+
       term_map = {}
       search_fields.each_pair do |field, weight|
         value = self.send(field)
         unless value.blank?
           for term in value.split
-            if term_map[term].blank?
-              term_map[term] = weight
+            stemmed_term = stemmer.stem(term.downcase)
+            if term_map[stemmed_term].blank?
+              term_map[stemmed_term] = weight
             else
-              term_map[term] += weight
+              term_map[stemmed_term] += weight
             end
           end
         end

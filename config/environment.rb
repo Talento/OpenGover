@@ -26,6 +26,7 @@ Rails::Initializer.run do |config|
   config.gem 'devise'
   config.gem "cancan"
   config.gem 'will_paginate'
+  config.gem 'ruby-stemmer', :version => '>=0.6.2', :lib => 'lingua/stemmer'
   #config.gem "joint"
 
   # Only load the plugins named here, in the order given (default is alphabetical).

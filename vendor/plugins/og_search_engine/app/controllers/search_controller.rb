@@ -1,5 +1,7 @@
-class SearchController < ApplicationController
+require 'lingua/stemmer'
 
+class SearchController < ApplicationController
+  
   def reindex
     for d in Demotext.all
       d.save
@@ -79,7 +81,8 @@ class SearchController < ApplicationController
 
   def search
     @search_query = params[:search]
-    query = @search_query.split(" ")
+    stemmer= Lingua::Stemmer.new(:language => I18n.locale.to_s)
+    query = @search_query.split(" ").collect{|t| stemmer.stem(t.downcase)}
     roles = %w[all]
     roles = current_user.roles if user_signed_in?
 
