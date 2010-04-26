@@ -1,0 +1,16 @@
+<div class="esq-top-izq">
+  <div class="esq-top-der">
+    <div class="esq-bottom-der">
+      <div class="esq-bottom-izq">
+        <div class="caja-formulario">
+          <% form_tag({:controller => 'search', :action => 'search'}, { :id => "buscador"}) do %>
+            <div>
+              <input type="text" name="search" onfocus="this.value=''; " value="<%= params[:search] || t('search.default_text') %>" />
+              <%= submit_tag t('search.submit'), :class => "buscar"  %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

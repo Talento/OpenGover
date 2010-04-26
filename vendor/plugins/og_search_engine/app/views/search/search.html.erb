@@ -1,0 +1,26 @@
+
+<h1>Search results</h1>
+
+
+<p><%= @total_results %> results for <strong><%= @search_query %></strong></p>
+<ul>
+    <% for result in @results %>
+        <li>
+            <%= link_for_search_result(result["_id"]["s_indexed_document_id"])%> 
+        </li>
+    <% end %>
+</ul>
+
+<p>Showing page <%= @current_page %> of  <%= @total_pages %></p>
+<p>
+  <% if @total_pages>1 %>
+      <ul>
+        <% 1.upto @total_pages do |pag| %>
+            <li>
+              <%= link_to pag, :page => pag if pag!=@current_page %>
+              <%= pag if pag==@current_page %>
+            </li>
+        <% end %>
+      </ul>
+  <% end %>
+</p>
