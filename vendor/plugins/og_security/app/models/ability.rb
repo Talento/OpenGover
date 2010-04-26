@@ -11,6 +11,8 @@
         can :manage, Password
         can :manage, Confirmation
 
+        can :manage, Search
+
         can :read, :all
         can :show, Page
 

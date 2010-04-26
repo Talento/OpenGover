@@ -18,12 +18,29 @@ class User
 
   slug :email_name
 
+  before_save :set_user_rol
+  after_create :set_initial_user_rol
+
   def is?(role)
     !role.blank? && roles.include?(role.to_s)
   end
 
   def email_name
     email.gsub(/\@.*/,"")
+  end
+
+  def role
+    "user-#{self.id}"
+  end
+
+  private
+
+  def set_user_rol
+    self.roles << self.role unless self.roles.include?(self.role) || self.new?
+  end
+  def set_initial_user_rol
+    self.roles << self.role unless self.roles.include?(self.role)
+    self.save
   end
 
 end

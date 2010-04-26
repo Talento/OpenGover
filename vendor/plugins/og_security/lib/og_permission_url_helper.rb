@@ -23,10 +23,12 @@ module OgPermissionUrlHelper
         end
 
 #        action_hash = options
-#        begin
+        #Si no reconoce la ruta no pinta el enlace
+        begin
             action_hash = ActionController::Routing::Routes.recognize_path(url.gsub(/\?(.*)/,""), :method => method)
-#        rescue
-#        end
+        rescue
+          return ""
+        end
 
         controller = action_hash[:controller] || request.path_parameters[:controller]
         controller = request.path_parameters[:controller] if controller.blank?
