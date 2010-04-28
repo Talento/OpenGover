@@ -51,5 +51,5 @@ Rails::Initializer.run do |config|
 #  config.middleware.use 'OgPerformanceFilter'
 #  config.middleware.use 'PrivateCache'
 #  config.middleware.insert_after 'Warden::Manager', 'PrivateCache'
-
+  config.i18n.load_path << Dir[ File.join(RAILS_ROOT,'vendor','plugins','*', 'config', 'locales', '*.{rb,yml}')]
 end
