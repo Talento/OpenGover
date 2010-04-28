@@ -39,13 +39,13 @@ module OgBaseSeoOptimizerController
         if conversions["site_#{params[:og_site].id}"] && conversions["site_#{params[:og_site].id}"][params[:og_locale]] && conversions["site_#{params[:og_site].id}"][params[:og_locale]]["enabled"]=="1"
           p = [action_hash[:controller], action_hash[:action],action_hash[:id]].compact.join("/")
           p="(blank)" if p.blank? || p=="pages/index"
-          @conversions = conversions["site_#{params[:og_site].id}"][params[:og_locale]][p]
-          unless @conversions.blank?
-            @conversions.gsub!("@n@","\n") unless @conversions.blank?
-            @conversions.gsub!("@2p@",":") unless @conversions.blank?
+          @conversion = conversions["site_#{params[:og_site].id}"][params[:og_locale]][p]
+          unless @conversion.blank?
+            @conversion.gsub!("@n@","\n") unless @conversion.blank?
+            @conversion.gsub!("@2p@",":") unless @conversion.blank?
           end
         end
-        response.body.gsub!(/<\/body>/im, "<script type=\"text/javascript\">" + @conversions+"</script></body>") unless @conversions.blank?
+        response.body.gsub!(/<\/body>/im, "<script type=\"text/javascript\">" + @conversion+"</script></body>") unless @conversion.blank?
       end
     end
 
