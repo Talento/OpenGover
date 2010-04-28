@@ -16,6 +16,10 @@ class OgRackSeoOptimizer
       if @path.ends_with?"robots.txt"
         file = OgSeoOptimizer.robots @site.to_param
         [200, {"Content-Type" => file.content_type}, [file.read]]
+      elsif @path.ends_with?("sitemap.xml") || @path.ends_with?("sitemap.xml.gz")
+        file = OgSeoOptimizer.sitemap @site.to_param
+#        [200, {"Content-Type" => file.content_type}, [@path.ends_with?("gz") ? file.read : Zlib::Inflate.inflate(file.read)]]
+        [200, {"Content-Type" => file.content_type}, [@path.ends_with?("gz") ? file.read : file.read]]
       else
         env['REQUEST_URI']=og_redirect_env env
         @app.call(env)

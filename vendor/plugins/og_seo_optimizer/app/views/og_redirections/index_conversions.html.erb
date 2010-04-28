@@ -1,0 +1,52 @@
+
+<h2><%= t('og_redirections.conversions_manage') %></h2>
+
+<%= render :partial => "menu" %>
+
+<div class="esq-top-izq">
+  <div class="esq-top-der">
+    <div class="esq-bottom-der">
+      <div class="esq-bottom-izq">
+        <div class="caja-formulario">
+
+          <% form_tag({:action => 'index_conversions'})do %>
+              <div><label for="configuration_key"><%= t('og_redirections.on_') %></label>
+                <% s = OgSeoOptimizer.og_conversions["site_#{params[:og_site].id}"] && OgSeoOptimizer.og_conversions["site_#{params[:og_site].id}"][params[:og_locale]] && (OgSeoOptimizer.og_conversions["site_#{params[:og_site].id}"][params[:og_locale]]["enabled"]=="1") %>
+              <%= select_tag "conversions_enabled", "<option value=\"0\" #{"selected=\"selected\"" unless s}>#{t('og_redirections.no_')}</option><option value=\"1\" #{"selected=\"selected\"" if s}>#{t('og_redirections.yes_')}</option>"  %></div>
+
+                <% n = 0
+                keys = @conversions.keys rescue {} %>
+                <% keys.each_with_index do |k,i| %>
+                 <% if k!="enabled" %>
+                    <% n += 1 %>
+                    <div>
+                      <%= t('og_redirections.url') %>: http://<%=request.host_with_port%>/ <%= text_field_tag "conversion_#{n}_url", k.gsub("(blank)","") %>
+                      <a name="toggle_conversion_<%=n%>" onclick="$('.conversion_<%=n%>').toggle();return false;"><%= t('og_redirections.show_hide') %></a>
+                      <div class="conversion_<%=n%>" style="display:none;">
+                      <%= t('og_redirections.conversion_code') %>: <%= text_area_tag "conversion_#{n}", @conversions[k].gsub("@n@","\n").gsub("@2p@",":"), :style => "width:100%;height: 50px;" %>
+                      </div>
+                    </div>
+                <% end %>
+            <% end %>
+        <div>
+          <%= hidden_field_tag "num_conversions", n %>
+          <%= t('og_redirections.new_url') %>:  http://<%=request.host_with_port%>/ <%= text_field_tag "new_url" %>
+          <a name="toggle_conversion_new" onclick="$('.conversion_new').toggle();return false;"><%= t('og_redirections.show_hide') %></a>
+          <div class="conversion_new" style="display:none;">
+            <%= t('og_redirections.conversion_code') %>: <%= text_area_tag "new", "", :style => "width:100%;height: 50px;" %>
+          </div>
+        </div>
+
+            <div class="content-botones-cms">
+              <div class="botones-cms guardar">
+                <%= submit_tag t('main.submit'), :class => 'boton' %>
+              </div>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

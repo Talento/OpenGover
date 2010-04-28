@@ -17,32 +17,30 @@ class OgRedirectionsController < ApplicationController
     aux["site_#{params[:og_site].id}"][params[:og_locale]] = red
     OgSeoOptimizer.og_redirections = aux
   end
-#
-#  def write_metas(confs)
-#    red = {}
-#    for k in confs.keys
-#      k.blank? ? aux_k="(blank)" : aux_k = k
-#      red["#{aux_k}"]= confs[k].gsub(/\r\n/m,"@n@").gsub(":","@2p@")
-#    end
-#    aux = YAML.load(File.open("#{RAILS_ROOT}/static_files/cms_metas.yml")) rescue {}
-#    aux["site#{Cms.site.id}"] = red
-#    f = File.open("#{RAILS_ROOT}/static_files/cms_metas.yml", "w") do |file|
-#      file << aux.to_yaml
-#    end
-#  end
-#
-#  def write_conversions(confs)
-#    red = {}
-#    for k in confs.keys
-#      k.blank? ? aux_k="(blank)" : aux_k = k
-#      red["#{aux_k}"]= confs[k].gsub(/\r\n/m,"@n@").gsub(":","@2p@")
-#    end
-#    aux = YAML.load(File.open("#{RAILS_ROOT}/static_files/cms_conversions.yml")) rescue {}
-#    aux["site#{Cms.site.id}"] = red
-#    f = File.open("#{RAILS_ROOT}/static_files/cms_conversions.yml", "w") do |file|
-#      file << aux.to_yaml
-#    end
-#  end
+
+  def reload_metas(confs)
+    red = {}
+    for k in confs.keys
+      k.blank? ? aux_k="(blank)" : aux_k = k
+      red["#{aux_k}"]= confs[k].gsub(/\r\n/m,"@n@").gsub(":","@2p@")
+    end
+    aux = OgSeoOptimizer.og_metas
+    aux["site_#{params[:og_site].id}"]={} if aux["site_#{params[:og_site].id}"].nil?
+    aux["site_#{params[:og_site].id}"][params[:og_locale]] = red
+    OgSeoOptimizer.og_metas = aux
+  end
+
+  def reload_conversions(confs)
+    red = {}
+    for k in confs.keys
+      k.blank? ? aux_k="(blank)" : aux_k = k
+      red["#{aux_k}"]= confs[k].gsub(/\r\n/m,"@n@").gsub(":","@2p@")
+    end
+    aux = OgSeoOptimizer.og_conversions
+    aux["site_#{params[:og_site].id}"]={} if aux["site_#{params[:og_site].id}"].nil?
+    aux["site_#{params[:og_site].id}"][params[:og_locale]] = red
+    OgSeoOptimizer.og_conversions = aux
+  end
 #
 #  def write_htaccess(confs)
 #    Dir.mkdir "#{Rails.public_path}/redirections/site#{Cms.site.id}/" rescue 0
@@ -79,15 +77,6 @@ class OgRedirectionsController < ApplicationController
 #    end
 #    File.delete("#{Rails.public_path}/exclusion.html") if File.exists?"#{Rails.public_path}/exclusion.html"
 #    File.symlink("#{Rails.public_path}/redirections/site#{Cms.site.id}/exclusion.html","#{Rails.public_path}/exclusion.html")
-#  end
-#
-#  def write_robots(confs)
-#    Dir.mkdir "#{Rails.public_path}/redirections/site#{Cms.site.id}/" rescue 0
-#    f = File.open("#{Rails.public_path}/redirections/site#{Cms.site.id}/robots.txt", "w") do |file|
-#      file << %{#{confs}}
-#    end
-#    File.delete("#{Rails.public_path}/robots.txt") if File.exists?"#{Rails.public_path}/robots.txt"
-#    File.symlink("#{Rails.public_path}/redirections/site#{Cms.site.id}/robots.txt","#{Rails.public_path}/robots.txt")
 #  end
 #
 #  def write_sitemap(sitemap)
@@ -140,89 +129,65 @@ class OgRedirectionsController < ApplicationController
       @redirections = OgSeoOptimizer.og_redirections["site_#{params[:og_site].id}"][params[:og_locale]]
     end
   end
+
+  # Generate metas for page headers
+  def index_metas
+    if request.post?
+      @metas = {}
+      @metas["enabled"] = params[:metas_enabled]
+      1.upto(params[:num_metas].to_i) do |n|
+        if !params["meta_#{n}_url"].blank? || !params["meta_#{n}"].blank?
+          @metas[fix_dir(params["meta_#{n}_url"])] = params["meta_#{n}"]
+        end
+      end
+      if !params[:new_url].blank? || !params[:new].blank?
+        @metas[fix_dir(params[:new_url])] = fix_dir(params[:new])
+      end
+      reload_metas(@metas)
+    else
+      @metas = OgSeoOptimizer.og_metas["site_#{params[:og_site].id}"][params[:og_locale]]
+    end
+  end
+
+  def index_conversions
+    if request.post?
+      @conversions = {}
+      @conversions["enabled"] = params[:conversions_enabled]
+      1.upto(params[:num_conversions].to_i) do |n|
+        if !params["conversion_#{n}_url"].blank? || !params["conversion_#{n}"].blank?
+          @conversions[fix_dir(params["conversion_#{n}_url"])] = params["conversion_#{n}"]
+        end
+      end
+      if !params[:new_url].blank? || !params[:new].blank?
+        @conversions[fix_dir(params[:new_url])] = fix_dir(params[:new])
+      end
+      reload_conversions(@conversions)
+    else
+      @conversions = YAML.load(File.open("#{RAILS_ROOT}/static_files/cms_conversions.yml"))["site#{Cms.site.id}"] rescue {}
+    end
+  end
+
+  # Generate robots.txt file
+  def index_robots
+    if request.post?
+      OgSeoOptimizer.set_robots params[:robots], params[:og_site].id
+      flash[:notice] = t('og_redirections.saved_succesfully', :file => 'robots.txt')
+    end
+    @sid = params[:og_site].id
+    @robots = OgSeoOptimizer.robots(params[:og_site].id).read
+  end
 #
-#  def index_metas
-#    if request.post?
-#      @metas = {}
-#      @metas["enabled"] = params[:metas_enabled]
-#      1.upto(params[:num_metas].to_i) do |n|
-#        if !params["meta_#{n}_url"].blank? || !params["meta_#{n}"].blank?
-#          @metas[fix_dir(params["meta_#{n}_url"])] = params["meta_#{n}"]
-#        end
-#      end
-#      if !params[:new_url].blank? || !params[:new].blank?
-#        @metas[fix_dir(params[:new_url])] = fix_dir(params[:new])
-#      end
-#      write_metas(@metas)
-#      @metas = YAML.load(File.open("#{RAILS_ROOT}/static_files/cms_metas.yml"))["site#{Cms.site.id}"]
-#    else
-#      @metas = YAML.load(File.open("#{RAILS_ROOT}/static_files/cms_metas.yml"))["site#{Cms.site.id}"] rescue {}
-#    end
-#  end
-#
-#  def index_conversions
-#    if request.post?
-#      @conversions = {}
-#      @conversions["enabled"] = params[:conversions_enabled]
-#      1.upto(params[:num_conversions].to_i) do |n|
-#        if !params["conversion_#{n}_url"].blank? || !params["conversion_#{n}"].blank?
-#          @conversions[fix_dir(params["conversion_#{n}_url"])] = params["conversion_#{n}"]
-#        end
-#      end
-#      if !params[:new_url].blank? || !params[:new].blank?
-#        @conversions[fix_dir(params[:new_url])] = fix_dir(params[:new])
-#      end
-#      write_conversions(@conversions)
-#      @conversions = YAML.load(File.open("#{RAILS_ROOT}/static_files/cms_conversions.yml"))["site#{Cms.site.id}"]
-#    else
-#      @conversions = YAML.load(File.open("#{RAILS_ROOT}/static_files/cms_conversions.yml"))["site#{Cms.site.id}"] rescue {}
-#    end
-#  end
-#
-#  def index_htaccess
-#    if request.post?
-#      write_htaccess(params[:htaccess])
-#    end
-#    @htaccess = ''
-#    if File.exists?("#{Rails.public_path}/.htaccess")
-#      f = File.open("#{Rails.public_path}/.htaccess", "r")
-#    else
-#      f = File.new("#{Rails.public_path}/.htaccess", "w+")
-#    end
-#    f.each_line do |line|
-#      @htaccess += line
-#    end
-#  end
-#
-#  # Genera el fichero robots.txt si se le llama por post. Si no, muestra la pantalla
-#  # de edici—n
-#  def index_robots
-#    if request.post?
-#      write_robots(params[:robots])
-#    end
-#    @robots = ''
-#    if File.exists?("#{Rails.public_path}/robots.txt")
-#      f = File.open("#{Rails.public_path}/robots.txt", "r")
-#    else
-#      f = File.new("#{Rails.public_path}/robots.txt", "w+")
-#    end
-#    f.each_line do |line|
-#      @robots += line
-#    end
-#  end
-#
-#  # Guarda el fichero sitemap.xml y sitemap.xml.gz
-#  # Generamos los dos para que no nos genere otro el sitemap_controller
-#  def index_sitemap
-#    if request.post?
-#      if (params[:sitemap].original_filename.downcase.eql?"sitemap.xml.gz") || (params[:sitemap].original_filename.downcase.eql?"sitemap.xml")
-#        write_sitemap(params[:sitemap])
-#        flash[:notice] = "Sitemap creado correctamente"
-#      else
-#        flash[:errors] = "Fichero erroneo"
-#      end
-#    end
-#  end
+  # Generate sitemap file
+  def index_sitemap
+    if request.post?
+      if (params[:sitemap].original_filename.downcase.eql?"sitemap.xml.gz") || (params[:sitemap].original_filename.downcase.eql?"sitemap.xml")
+        OgSeoOptimizer.set_sitemap params[:sitemap].read,params[:sitemap].original_filename.downcase.split('.').last.eql?('gz'),params[:og_site].id 
+        flash[:notice] = t('og_redirections.saved_successfully', :file => params[:sitemap].original_filename.downcase)
+      else
+        flash[:notice] = t('og_redirections.saved_unsuccessfully', :file => params[:sitemap].original_filename.downcase)
+      end
+    end
+  end
 #
 #  def index_exclusion
 #    if request.post?
@@ -234,33 +199,7 @@ class OgRedirectionsController < ApplicationController
 #      end
 #    end
 #  end
-#
-#  def description
-#    metas = YAML.load(File.open("#{RAILS_ROOT}/static_files/cms_metas.yml"))["site#{Cms.site.id}"] rescue nil
-#    if metas && metas["enabled"]=="1"
-#      p = request.request_uri.clone
-#      p.sub!(%r(/(.*?))){"#{$1}"} if p.starts_with?("/")
-#      p.sub!(%r((.*?)/)){"#{$1}"} if p.ends_with?("/")
-#      p.sub!(%r(private/(.*?)/),"")
-#      p.sub!(%r(site/(.*?)/),"")
-#      p.sub!(%r(nocache/),"")
-#      p="(blank)" if p.blank? || p=="pages/index"
-#      @meta = metas[p]
-#      unless @meta.blank?
-#        @meta.gsub(/<title>(.*?)<\/title>/i) do |element|
-#          session[:page_title] = $1.clone
-#          ""
-#        end
-#        @meta.gsub!(/<title>(.*?)<\/title>/i,"")
-#        @meta.gsub!("@n@","\n") unless @meta.blank?
-#        @meta.gsub!("@2p@",":") unless @meta.blank?
-#      end
-#      render :layout => false
-#    else
-#      render :text => ""
-#    end
-#  end
-#
+
 #  def conversion
 #    conversions = YAML.load(File.open("#{RAILS_ROOT}/static_files/cms_conversions.yml"))["site#{Cms.site.id}"] rescue nil
 #    if conversions && conversions["enabled"]=="1"

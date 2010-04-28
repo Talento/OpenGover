@@ -1,0 +1,30 @@
+  
+<h2><%= t('og_redirections.robots_manage') %></h2>
+<%= render :partial => "menu" %>
+
+<div class="esq-top-izq">
+  <div class="esq-top-der">
+    <div class="esq-bottom-der">
+      <div class="esq-bottom-izq">
+        <div class="caja-formulario">
+
+          <% form_tag({:action => 'index_robots'})do %>
+
+
+            <div>
+              <%= text_area_tag "robots", @robots, :style => "width:100%;height: 500px;" %>
+            </div>
+
+            <div class="content-botones-cms">
+              <div class="botones-cms guardar">
+                <%= submit_tag t('main.submit'), :class => 'boton' %>
+              </div>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
