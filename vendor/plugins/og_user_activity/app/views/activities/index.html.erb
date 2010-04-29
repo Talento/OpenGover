@@ -1,0 +1,24 @@
+<h2><%= t('og_activity.activity_list') %></h2>
+<%= render :partial => 'search' %>
+<table class="listado-cms">
+  <thead>
+    <tr>
+      <th><%= t('og_activity.date')  %></th>
+      <th><%= t('og_activity.user')  %></th>
+      <th><%= t('og_activity.url') %></th>
+      <th><%= t('og_activity.params') %></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% for activity in @activities -%>
+  <tr>
+    <td><%= l activity.created_at, :format => :short %></td>
+    <td><%= activity.user_id %></td>
+    <td><%= activity.url %></td>
+    <td><%= activity.params %></td>
+  </tr>
+  <% end -%>
+  </tbody>
+</table>
+
+<%= will_paginate @roles %>

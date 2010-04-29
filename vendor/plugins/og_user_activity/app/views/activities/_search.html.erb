@@ -1,0 +1,15 @@
+<% form_tag :action => 'index' do %>
+    <div class="formulario">
+      <%= label_tag :user %>
+      <%= select_tag :user, options_for_select([""].concat(User.all.map(&:id)),params[:user]) %>
+      <%= label_tag :date, :from %>
+      <%= datetime_select :date, :from, :default => @date_from %>
+      <%= label_tag :date, :until %>
+      <%= datetime_select :date, :until, :default => @date_until %>
+      <%= label_tag :url %>
+      <%= text_field_tag :url, params[:url] %>
+      <div>
+        <%= submit_tag t('main.search') %>
+      </div>
+    </div>
+<% end %>

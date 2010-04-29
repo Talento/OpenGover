@@ -1,0 +1,9 @@
+OgUserActivity
+==============
+
+Log the activity of users. It stores the user, url and params os all pages visited by logged users, for administrative
+purposes.
+You can take a look in /activities
+
+
+Copyright (c) 2010 Talento Corporativo, released under the GPL v3 license
